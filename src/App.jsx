@@ -123,6 +123,7 @@ export default App */
 
 import Button from './components/Ui/Button'
 import Input from './components/Ui/Input'
+import { Navbar } from './components/layout/Navbar'
 import './App.css'
 function App() {
 
@@ -132,9 +133,12 @@ function App() {
   return (
     <div className="flex gap-4 p-10">
 
-      <Input label="Name" type="text" placeholder="Enter your name" value="" onChange={handleChange}/>
+      <Navbar></Navbar>
 
-      <Button variant="primary">Post a Job</Button>
+
+      
+      <h1 style={{ padding: "100px" }}>This is the home</h1>
+
 
     </div>
   );

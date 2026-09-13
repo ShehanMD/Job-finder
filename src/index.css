@@ -3,7 +3,20 @@
 @tailwind utilities;
 
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: #1b1b1b;
   color: #ffffff;
+  font-family: sans-serif;
+}
+
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
