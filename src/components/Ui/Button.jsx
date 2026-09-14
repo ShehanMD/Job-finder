@@ -1,7 +1,7 @@
 import React from "react";
 
 export const Button = ({ children, onClick, variant = 'primary', className = ''}) => {
-    const baseClasses = 'h-12 px-4 py-2 rounded-xl font-bold transition duration-300';
+    const baseClasses = 'h-12 px-4 py-3 rounded-xl font-bold transition duration-300';
     let variantClasses = '';
 
     if (variant === 'primary') {
