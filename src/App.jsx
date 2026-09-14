@@ -124,6 +124,7 @@ export default App */
 import Button from './components/Ui/Button'
 import Input from './components/Ui/Input'
 import { Navbar } from './components/layout/Navbar'
+import { JobCard } from './components/jobs/JobCard'
 import './App.css'
 function App() {
 
@@ -134,10 +135,28 @@ function App() {
     <div className="flex gap-4 p-10">
 
       <Navbar></Navbar>
-
-
-      
-      <h1 style={{ padding: "100px" }}>This is the home</h1>
+    <JobCard 
+      companyName={<>Navinna DSI<br/>Show Room</>}
+      logoText="DSI"
+      filled={10}
+      total={50}
+      isUrgent={true}
+      title="Packing and delivery"
+      payment="Rs. 2,000/day"
+      location="Colombo"
+      time="8:00 AM - 5:00 PM"
+  />
+      <JobCard 
+      companyName={<>Helper</>}
+      logoText="DSI"
+      filled={1}
+      total={3}
+      isUrgent={false}
+      title="Restaurent helper"
+      payment="Rs. 2,000/day"
+      location="Kandy"
+      time="8:00 AM - 5:00 PM"
+  />
 
 
     </div>

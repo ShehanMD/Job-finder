@@ -1,0 +1,123 @@
+.card {
+  background-color: #2a2c29; 
+  border: 1px solid #3f423d;
+  border-radius: 16px;
+  padding: 20px;
+  width: 320px;
+  color: #ffffff;
+  cursor: pointer;
+  
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4), 0 10px 20px rgba(0, 196, 159, 0.15);
+  border-color: #00c49f; 
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.companyInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoContainer {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3f423d; 
+}
+
+.profilePic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+
+.companyName {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.vacancyInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.urgentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #e5e5e5;
+  color: #555;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.redDot {
+  color: #d93025;
+  font-size: 8px;
+}
+
+.jobTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.detailsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #00c49f; /* Teal පාට */
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.viewBtn {
+  background-color: transparent;
+  border: 1px solid #00c49f;
+  color: #ffffff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.viewBtn:hover {
+  background-color: #00c49f;
+  color: #000;
+}
