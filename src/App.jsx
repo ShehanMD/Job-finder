@@ -196,12 +196,12 @@ export default function App() {
   };
 
   return (
-    // මෙන්න මෙතැන bgImage භාවිතා කර ඇත
+    
     <div 
       className="min-h-screen text-white flex flex-col justify-between bg-cover bg-center bg-no-repeat relative"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* Background Dark Overlay (Text පැහැදිලිව පෙනීමට) */}
+      
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
       {/* Content Area */}
