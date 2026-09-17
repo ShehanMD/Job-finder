@@ -7,6 +7,16 @@ import RoleSelection from './components/auth/RoleSelection';
 import RegisterForm from './components/auth/RegisterForm';
 import ProfileCompletionForm from './components/auth/ProfileCompletionForm';
 import { JobCard } from './components/jobs/JobCard';
+import { Search, Bot, Briefcase, Star, FileCheck, BarChart3 } from 'lucide-react';
+
+const TOOLS = [
+  { icon: Search, label: 'AI DRIVEN SEARCH' },
+  { icon: Bot, label: 'SCREENING CHATBOT' },
+  { icon: Briefcase, label: 'JOB RECOMMENDATION' },
+  { icon: Star, label: 'PROFILE RATING' },
+  { icon: FileCheck, label: 'JOB-FIT RESUME' },
+  { icon: BarChart3, label: 'RECRUITMENT ANALYTICS' },
+];
 
 export default function App() {
   const [role, setRole] = useState(null);
@@ -89,12 +99,16 @@ const handleBack = () => {
                   transition={{ duration: 0.4 }}
                   className="w-full max-w-4xl text-center"
                 >
-                  <h1 className="text-4xl md:text-5xl font-bold text-[#00c49f] mb-4">
-                    Find Your Perfect Part-Time Job
-                  </h1>
-                  <p className="text-gray-300 text-sm md:text-base max-w-lg mx-auto mb-8">
-                    Connect with trusted employers and motivated job seekers across Sri Lanka.
-                  </p>
+                
+         <div className="w-full max-w-4xl text-center mb-8 pt-6">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+            Find Your Perfect <span className="text-[#00c49f]">Part-Time Job.</span>
+          </h1>
+          <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto mb-8">
+            A smarter way to find opportunities and build teams with AI-driven matching, automation and insights.
+          </p>
+          </div>
+                  
 
                   <RoleSelection
                     role={role}
@@ -127,6 +141,7 @@ const handleBack = () => {
 
                   {step === 3 && (
                     <ProfileCompletionForm
+                      role={role}
                       employerType={employerType}
                       formData={formData}
                       handleInputChange={handleInputChange}
@@ -145,6 +160,30 @@ const handleBack = () => {
                {}
             </div>
           </div>
+
+          {/* Tools Ticker Section */}
+<div className="w-full py-8 border-t border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-sm my-6">
+  <h2 className="text-center text-sm font-semibold text-zinc-300 mb-6 tracking-wide">
+    Our services & tools
+  </h2>
+
+  <div className="w-full overflow-hidden relative">
+    <div className="flex whitespace-nowrap animate-ticker hover:[animation-play-state:paused]">
+      {[...TOOLS, ...TOOLS].map((tool, idx) => {
+        const Icon = tool.icon;
+        return (
+          <div 
+            key={idx} 
+            className="flex items-center gap-2.5 mx-6 shrink-0 bg-zinc-800/60 px-4 py-2.5 rounded-lg border border-zinc-700/50"
+          >
+            <Icon className="w-5 h-5 text-[#00c49f]" />
+            <span className="text-xs font-bold tracking-wider text-zinc-200">{tool.label}</span>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
           
           <section className="w-full py-20 px-4 bg-[#111111] border-t border-gray-800">
           <div className="max-w-6xl mx-auto">
