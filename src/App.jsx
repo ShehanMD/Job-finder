@@ -146,7 +146,49 @@ const handleBack = () => {
             </div>
           </div>
           
+          <section className="w-full py-20 px-4 bg-[#111111] border-t border-gray-800">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              How It <span className="text-[#00c49f]">Works</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800">
+                <div className="w-12 h-12 bg-[#00c49f]/20 text-[#00c49f] rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
+                <h3 className="text-xl font-semibold mb-2">Create an Account</h3>
+                <p className="text-gray-400 text-sm">Sign up as a job seeker or an employer in just a few clicks.</p>
+              </div>
+              <div className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800">
+                <div className="w-12 h-12 bg-[#00c49f]/20 text-[#00c49f] rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
+                <h3 className="text-xl font-semibold mb-2">Find or Post Jobs</h3>
+                <p className="text-gray-400 text-sm">Browse through verified listings or post your requirements.</p>
+              </div>
+              <div className="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800">
+                <div className="w-12 h-12 bg-[#00c49f]/20 text-[#00c49f] rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
+                <h3 className="text-xl font-semibold mb-2">Get Connected</h3>
+                <p className="text-gray-400 text-sm">Communicate directly and start your new part-time journey.</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
+        {/* Section 2: Popular Categories */}
+        <section className="w-full py-20 px-4 bg-[#151515] border-t border-gray-800">
+          <div className="max-w-6xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-white mb-12">
+              Popular <span className="text-[#00c49f]">Categories</span>
+            </h2>
+            <div className="flex flex-wrap justify-center gap-4">
+              {['Helper', 'Retail & Sales', 'Food & Beverage', 'Packaging', 'Delivery & Logistics', 'Customer Support'].map((cat, index) => (
+                <span 
+                  key={index} 
+                  className="px-6 py-3 bg-[#1a1a1a] border border-gray-700 rounded-full text-gray-300 hover:text-[#00c49f] hover:border-[#00c49f] transition-colors cursor-pointer"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
         </main>
 
         <Footer />
