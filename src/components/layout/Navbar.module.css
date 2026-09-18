@@ -9,7 +9,10 @@
     right: 0;
     width:100%;
     box-sizing: border-box;
-
+    background-color: #f9f7f723;
+    backdrop-filter: blur(10px);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .navLink {

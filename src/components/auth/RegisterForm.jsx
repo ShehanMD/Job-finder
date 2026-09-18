@@ -2,7 +2,13 @@ import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 
+
+
+
+
 export default function RegisterForm({ role, employerType, formData, handleInputChange, onNext, onBack }) {
+
+
   return (
     <div>
       <div className="text-center mb-6">
