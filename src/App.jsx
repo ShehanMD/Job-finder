@@ -1,13 +1,13 @@
 import bgImage from './assets/bg-image.jpg';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import RoleSelection from './components/auth/RoleSelection';
 import RegisterForm from './components/auth/RegisterForm';
 import ProfileCompletionForm from './components/auth/ProfileCompletionForm';
-import { JobCard } from './components/jobs/JobCard';
 import { Search, Bot, Briefcase, Star, FileCheck, BarChart3 } from 'lucide-react';
+import Login from './components/auth/Login';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database";
@@ -26,6 +26,8 @@ export default function App() {
   const [role, setRole] = useState(null);
   const [employerType, setEmployerType] = useState(null);
   const [step, setStep] = useState(1);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -37,6 +39,15 @@ export default function App() {
     birthMonth: '',
     birthYear: ''
   });
+
+  useEffect(() => {
+    if (isLoginOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isLoginOpen]);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -62,6 +73,7 @@ export default function App() {
       setEmployerType(null);
     }
   };
+
 
   const handleFinalSubmit = async (e) => {
     e.preventDefault();
@@ -101,6 +113,8 @@ export default function App() {
 
       <div className="absolute inset-0 bg-black/60 z-0"></div>
 
+  
+
       {/* Content Area */}
       <motion.div
         className="relative z-10 flex flex-col min-h-screen justify-between"
@@ -109,12 +123,11 @@ export default function App() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <div className="fixed top-0 left-0 w-full z-50">
-          <Navbar />
+          <Navbar onSignInClick={() => setIsLoginOpen(true)} />
         </div>
 
-
+      {!isLoginOpen && (
         <main className="flex-1 flex flex-col items-center px-4 pt-24 pb-8 w-full">
-
 
           <div className="w-full flex flex-col justify-center items-center min-h-[70vh]">
             <AnimatePresence mode="wait">
@@ -130,7 +143,7 @@ export default function App() {
 
                   <div className="w-full max-w-4xl text-center mb-8 pt-6">
                     <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-                      Find Your Perfect <span className="text-[#00c49f]">Part-Time Job.</span>
+                      Find Your Perfect <span className="text-[#00c49f]">Part-Time Job</span>
                     </h1>
                     <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto mb-8">
                       A smarter way to find opportunities and build teams with AI-driven matching, automation and insights.
@@ -143,6 +156,7 @@ export default function App() {
                     setRole={setRole}
                     onSelectSeeker={handleSeekerSelect}
                     onSelectEmployerType={handleEmployerTypeSelect}
+                    style={{ marginTop: '20%' }}
                   />
                 </motion.div>
               )}
@@ -257,9 +271,14 @@ export default function App() {
             </div>
           </section>
         </main>
+      )}
 
         <Footer />
       </motion.div>
+
+      <animatePresence>
+      {isLoginOpen && <Login onClose = {() => setIsLoginOpen(false)} />}
+      </animatePresence>
     </div>
   );
 }
