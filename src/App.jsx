@@ -12,7 +12,7 @@ import Login from './components/auth/Login';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { auth ,db} from "./components/firebase/firebase";
-
+import EmployerDashboard from './components/Employer/EmployerDashboard';
 const TOOLS = [
   { icon: Search, label: 'AI DRIVEN SEARCH' },
   { icon: Bot, label: 'SCREENING CHATBOT' },
@@ -21,6 +21,7 @@ const TOOLS = [
   { icon: FileCheck, label: 'JOB-FIT RESUME' },
   { icon: BarChart3, label: 'RECRUITMENT ANALYTICS' },
 ];
+
 
 export default function App() {
   const [role, setRole] = useState(null);
@@ -82,8 +83,8 @@ export default function App() {
 
     
 
-    //console.log("Submitted Data:", { role, employerType, ...formData });
-    //alert("Registration Completed Successfully!");
+    console.log("Submitted Data:", { role, employerType, ...formData });
+    alert("Registration Completed Successfully!");
   };
 
 
@@ -104,6 +105,7 @@ export default function App() {
       console.error("Registration error:", error.code, error.message);
     }
   };
+  
 
   return (
     <div
@@ -115,7 +117,7 @@ export default function App() {
 
   
 
-      {/* Content Area */}
+   {/* Content Area */}
       <motion.div
         className="relative z-10 flex flex-col min-h-screen justify-between"
         initial={{ opacity: 0, y: 30 }}
@@ -201,7 +203,7 @@ export default function App() {
             <div className="flex flex-wrap gap-6 justify-center">
               { }
             </div>
-          </div>
+          </div>  
 
           {/* Tools Ticker Section */}
           <div className="w-full py-8 border-t border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-sm my-6">
@@ -250,9 +252,9 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </section>
+          </section> 
 
-          {/* Section 2: Popular Categories */}
+          //{/* Section 2: Popular Categories */}
           <section className="w-full py-20 px-4 bg-[#151515] border-t border-gray-800">
             <div className="max-w-6xl mx-auto text-center">
               <h2 className="text-3xl font-bold text-white mb-12">
@@ -276,9 +278,17 @@ export default function App() {
         <Footer />
       </motion.div>
 
-      <animatePresence>
+      <AnimatePresence>
       {isLoginOpen && <Login onClose = {() => setIsLoginOpen(false)} />}
-      </animatePresence>
+      </AnimatePresence>
     </div>
+
+    //employer dashoboard eka balanna yata <div> eka 
+    //registration eke tika comment karanna
+
+    /*<div>
+      <EmployerDashboard />
+    </div>*/
+
   );
 }
