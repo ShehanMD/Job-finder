@@ -18,13 +18,14 @@ import React from "react";
 import styles from "./Navbar.module.css";
 
 export const Navbar = ({ 
-  isLoggedIn = false, 
-  onSignInClick, 
-  onSignOutClick, 
-  onNavClick 
+  isLoggedIn = false,
+  transparent = false,
+  onSignInClick,
+  onSignOutClick,
+  onNavClick
 }) => {
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} ${transparent ? styles.transparent : ''}`}>
       {/* if logged in show user icon */}
       {isLoggedIn && (
         <div className={styles.userIcon}>

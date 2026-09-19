@@ -21,7 +21,7 @@ export default function EmployerDashboard() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white flex flex-col relative pt-28">
       {/* Dynamic Navbar Component */}
-      <Navbar 
+      <Navbar transparent={true}
         isLoggedIn={true} 
         onSignOutClick={handleSignOut}
         onNavClick={(tab) => setActiveTab(tab)}
