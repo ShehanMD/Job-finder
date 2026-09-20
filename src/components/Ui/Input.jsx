@@ -12,7 +12,7 @@ const Input = ({label, type = "text", placeholder, value, onChange, ...props}) =
                 onChange={onChange}
                 style={{
                     padding: '8px 16px', // Slightly smaller padding to match your original form
-                    borderRadius: '4px', // Adjusted to match standard tailwind rounding
+                    borderRadius: '10px', // Adjusted to match standard tailwind rounding
                     border: 'none',
                     backgroundColor: '#D9D9D9',
                     outline: 'none',

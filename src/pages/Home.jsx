@@ -278,6 +278,7 @@ export default function Home() {
             </div>
           </section>
           
+            
             <Button onClick={() => navigate('/employer')} style={{marginTop: '20px'}}>To Employeer Dashboard</Button>
           
         </main>

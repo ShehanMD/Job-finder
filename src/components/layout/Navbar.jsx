@@ -36,10 +36,8 @@ export const Navbar = ({
       <a 
         href="/" 
         className={styles.navLink}
-        onClick={(e) => {
-          e.preventDefault();
-          if (onNavClick) onNavClick('overview');
-        }}
+        onClick={() => navigate('/employer')} 
+        
       >
         Home
       </a>
