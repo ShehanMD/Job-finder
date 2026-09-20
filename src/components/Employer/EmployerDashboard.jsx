@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../layout/Navbar';
 import EmployerOverview from './EmployerOverview';
+import PostJobForm from './PostJobForm';
 
 export default function EmployerDashboard() {
   // Navigation Screens පාලනය කරන State එක
@@ -41,6 +42,10 @@ export default function EmployerDashboard() {
         )}
 
         {/* ඊළඟට සදන components (PostJobForm, YourJobs, ApplicationCenter) පහතින් එකතු කළ හැක */}
+        {/* මෙන්න මේ අලුත් කොටස තමයි එකතු කරන්න ඕනේ */}
+        {activeTab === 'postJob' && (
+          <PostJobForm onJobPosted={(tab) => setActiveTab(tab)} />
+        )}
       </main>
     </div>
   );
