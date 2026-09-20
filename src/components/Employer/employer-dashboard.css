@@ -1,0 +1,135 @@
+/* ==========================================
+   Employer Dashboard - Mobile Responsive CSS
+   ========================================== */
+
+/* Base Adjustments */
+body {
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------
+   1. Dashboard Main Layout (Mobile)
+   ------------------------------------------ */
+@media (max-width: 768px) {
+  /* Dynamic Header Top Padding for Mobile Navbar */
+  .min-h-screen.pt-28 {
+    padding-top: 5.5rem !important;
+  }
+
+  main {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* ------------------------------------------
+   2. Employer Overview Section
+   ------------------------------------------ */
+@media (max-width: 768px) {
+  /* Welcome Title */
+  .min-h-\[75vh\] h1 {
+    font-size: 2rem !important;
+    line-height: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Action Buttons (Post Job & See Jobs) */
+  .min-h-\[75vh\] .flex.gap-6 {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .min-h-\[75vh\] .flex.gap-6 button {
+    width: 100% !important;
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.85rem !important;
+    font-size: 1rem !important;
+  }
+
+  /* Dynamic Stat Cards Grid */
+  .grid-cols-1.md\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  .grid-cols-1.md\:grid-cols-3 button {
+    padding: 1.25rem !important;
+    border-radius: 1rem !important;
+  }
+
+  .grid-cols-1.md\:grid-cols-3 button span.text-5xl {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+/* ------------------------------------------
+   3. Your Jobs Component (Mobile)
+   ------------------------------------------ */
+@media (max-width: 768px) {
+  /* Header Section */
+  .max-w-4xl.py-6 .flex.justify-between {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  .max-w-4xl.py-6 h2 {
+    font-size: 1.75rem !important;
+  }
+
+  /* Job Cards */
+  .bg-\[\#222522\] {
+    padding: 1rem !important;
+    border-radius: 1rem !important;
+  }
+
+  /* Analytics Grid inside expanded job */
+  .grid-cols-1.sm\:grid-cols-2.md\:grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Expanded Action Buttons */
+  .flex.flex-wrap.items-center.justify-end {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.5rem !important;
+  }
+
+  .flex.flex-wrap.items-center.justify-end button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+}
+
+/* ------------------------------------------
+   4. Post Job Form Component (Mobile)
+   ------------------------------------------ */
+@media (max-width: 768px) {
+  form {
+    padding: 1.25rem !important;
+    gap: 1rem !important;
+  }
+
+  /* Form Input Fields - Prevent Zoom on iOS */
+  form input,
+  form select,
+  form textarea {
+    font-size: 16px !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Submit / Cancel Button Container */
+  form .flex.justify-end {
+    flex-direction: column-reverse !important;
+    gap: 0.75rem !important;
+  }
+
+  form .flex.justify-end button {
+    width: 100% !important;
+  }
+}

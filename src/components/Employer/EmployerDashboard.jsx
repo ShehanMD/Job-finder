@@ -1,38 +1,61 @@
+
 import React, { useState } from 'react';
 import Navbar from '../layout/Navbar';
 import EmployerOverview from './EmployerOverview';
 import PostJobForm from './PostJobForm';
+import YourJobs from './YourJobs';
+import './employer-dashboard.css';
 
 export default function EmployerDashboard() {
-  // Navigation Screens පාලනය කරන State එක
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Dashboard Stat Cards වල Dynamic Data
-  const [stats, setStats] = useState({
-    activeJobs: 5,
-    receivedApplications: 75,
-    finishedJobs: 15
-  });
+  // 1. Jobs ලැයිස්තුව Dashboard එකේ State එකක් ලෙස තබාගැනීම
+  const [jobs, setJobs] = useState([
+    {
+      id: 1,
+      title: 'Senior React Developer',
+      category: 'Software Engineering',
+      type: 'Full-time',
+      postedDate: 'Yesterday',
+      applicantsCount: 24,
+      status: 'Active'
+    }
+  ]);
 
-  const handleSignOut = () => {
-    console.log("Sign Out clicked");
-    // Sign out කිරීමට අදාළ Logic එක මෙතැනට එකතු කරන්න
+  // 2. අලුත් Job එකක් Add කරන Function එක
+  const handleAddJob = (newJobData) => {
+    const newJob = {
+      id: jobs.length + 1,
+      ...newJobData,
+      postedDate: 'Just now',
+      applicantsCount: 0,
+      status: 'Active'
+    };
+    
+    // පැරණි jobs එක්ක අලුත් job එක එකතු කිරීම
+    setJobs([newJob, ...jobs]);
+    
+    // Job එක Post කළ පසු කෙළින්ම Your Jobs tab එකට මාරු කිරීම
+    setActiveTab('yourJobs');
   };
 
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white flex flex-col relative pt-28">
-      {/* Dynamic Navbar Component */}
-      <Navbar transparent={true}
+      <Navbar 
+        transparent={true}
         isLoggedIn={true} 
-        onSignOutClick={handleSignOut}
+        onSignOutClick={() => console.log("Sign Out")}
         onNavClick={(tab) => setActiveTab(tab)}
       />
 
-      {/* Main Content Area */}
       <main className="flex-1 p-6 max-w-5xl mx-auto w-full flex flex-col justify-center">
         {activeTab === 'overview' && (
           <EmployerOverview 
-            stats={stats}
+            stats={{
+              activeJobs: jobs.length, // Dynamic ලෙස active jobs ගණන පෙන්වයි
+              receivedApplications: 75,
+              finishedJobs: 15
+            }}
             onPostJobClick={() => setActiveTab('postJob')} 
             onSeeJobsClick={() => setActiveTab('yourJobs')}
             onActiveJobsClick={() => setActiveTab('yourJobs')}
@@ -41,12 +64,23 @@ export default function EmployerDashboard() {
           />
         )}
 
-        {/* ඊළඟට සදන components (PostJobForm, YourJobs, ApplicationCenter) පහතින් එකතු කළ හැක */}
-        {/* මෙන්න මේ අලුත් කොටස තමයි එකතු කරන්න ඕනේ */}
+        {/* 3. PostJobForm එකට handleAddJob එක Pass කිරීම */}
         {activeTab === 'postJob' && (
-          <PostJobForm onJobPosted={(tab) => setActiveTab(tab)} />
+          <PostJobForm onJobPosted={handleAddJob} />
+        )}
+
+        {/* 4. YourJobs එකට දැනට තියෙන jobs array එක Pass කිරීම */}
+        {activeTab === 'yourJobs' && (
+          <YourJobs 
+            jobs={jobs}
+            onBackClick={() => setActiveTab('overview')}
+            onViewApplications={(jobId) => setActiveTab('applications')}
+          />
         )}
       </main>
     </div>
   );
 }
+
+
+

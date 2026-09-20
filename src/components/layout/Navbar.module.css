@@ -1,4 +1,4 @@
-.navbar {
+/*.navbar {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -16,6 +16,7 @@
 }
 
 /* User Icon  */
+/*
 .userIcon {
     width: 42px;
     height: 42px;
@@ -61,4 +62,144 @@
 .transparent {
     background-color: transparent;
     backdrop-filter: none;
+}
+    */
+
+    /* ==========================================
+   DESKTOP VIEW (Original Style 100% Retained)
+   ========================================== */
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 60px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9f7f723;
+    backdrop-filter: blur(10px);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    z-index: 1000;
+}
+
+/* User Icon */
+.userIcon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #2b2d2f;
+    border: 1px solid #4a4d50;
+    color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: auto; /* Push menu/links to the right */
+}
+
+/* Desktop Menu Container */
+.navMenu {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Original gap between links */
+}
+
+.navLink {
+    color: #00c49f;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+}
+
+.navLink:hover {
+    color: #ffffff;
+}
+
+.signInButton {
+    background-color: transparent;
+    border: 1px solid #00c49f;
+    color: #00c49f;
+    padding: 8px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s ease-in-out;
+}
+
+.signInButton:hover {
+    background-color: #00c49f;
+    color: #1b1b1b;
+}
+
+.transparent {
+    background-color: transparent;
+    backdrop-filter: none;
+}
+
+/* Desktop එකේදී Hamburger icon එක සඟවයි */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto; /* User icon එක නැති විට Hamburger එක දකුණට ගැනීමට */
+}
+
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: #00c49f;
+    border-radius: 2px;
+    transition: 0.3s ease-in-out;
+}
+
+/* ==========================================
+   MOBILE VIEW (768px සහ ඊට අඩු Screen වලදී)
+   ========================================== */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 25px; /* Mobile වලට ගැලපෙන padding එකක් */
+    }
+
+    .hamburger {
+        display: flex; /* Mobile වලදී විතරක් Hamburger පෙන්වයි */
+    }
+
+    /* Links සහ Buttons විතරක් Dropdown එකට යවයි */
+    .navMenu {
+        display: none; /* Default Hide වේ */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 20px;
+        background-color: rgba(20, 24, 27, 0.92); /* Glassmorphism background */
+        backdrop-filter: blur(12px);
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Hamburger click කළ විට Dropdown එක පෙනේ */
+    .navMenu.active {
+        display: flex;
+    }
+
+    .signInButton {
+        width: auto;
+        min-width: 130px;
+        text-align: center;
+    }
 }
