@@ -226,12 +226,12 @@ export default function PostJobForm({ onJobPosted }) {
         </div>
 
         <div className="button-group">
-          <button type="button" variant="gray" className="btn-half" onClick={handleBack}>
+          <Button variant="gray" className="btn-half" onClick={handleBack}>
             Back
-          </button>
-          <button type="submit" className="btn-half" disabled={loading}>
+          </Button>
+          <Button className="btn-half" disabled={loading}>
             {loading ? 'Posting...' : 'Post Job'}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

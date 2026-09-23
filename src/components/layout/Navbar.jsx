@@ -22,7 +22,6 @@ export const Navbar = ({
     }
   };
 
-  // So gollotooɗo naatii (isLoggedIn), wonta transparent. So naanaani, wonta blur.
   const isNavbarTransparent = isLoggedIn || transparent;
 
   return (
@@ -30,13 +29,15 @@ export const Navbar = ({
       
       {/* User Icon so a naatii */}
       {isLoggedIn && (
-        <div 
-          className={styles.userIcon} 
-          onClick={handleProfileClick}
-          style={{ cursor: 'pointer' }}
-          title="View Profile"
-        >
-          👤
+        <div className={styles.userIconWrapper}>
+          <a
+            href="/profile"
+            className={styles.userIcon}
+            onClick={handleProfileClick}
+            title="View Profile"
+          >
+            👤
+          </a>
         </div>
       )}
 
