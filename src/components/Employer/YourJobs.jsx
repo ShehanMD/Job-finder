@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import Button from '../Ui/Button';
-// මෙතන නම ApplicationCenter ලෙස නිවැරදි කර ඇත
 import ApplicationCenter from './ApplicationCenter'; 
 
-export default function YourJobs({ onBackClick, onViewApplications }) {
-  // කුමන රැකියාවේ Applicants ලාව පෙන්විය යුතුද යන්න තබා ගැනීමට අලුත් state එකක්
+export default function YourJobs({ onBackClick, onViewApplications, onJobFinished }) {
   const [viewingApplicantsFor, setViewingApplicantsFor] = useState(null);
-  
   const [selectedJobId, setSelectedJobId] = useState(null);
 
-  // Mock Data (Job Description එකතු කර ඇත)
+  // Mock Data
   const [jobs, setJobs] = useState([
     {
       id: 1,
@@ -70,7 +67,6 @@ export default function YourJobs({ onBackClick, onViewApplications }) {
       job.id === jobId ? { ...job, jobStarted: true } : job
     ));
 
-    console.log(`Job ${jobId} Started`);
     alert("Job execution started successfully!");
   };
 
@@ -82,8 +78,24 @@ export default function YourJobs({ onBackClick, onViewApplications }) {
       job.id === jobId ? { ...job, status: 'Completed', jobStarted: false } : job
     ));
 
-    console.log(`Job ${jobId} Ended`);
-    alert("Job marked as completed!");
+    alert("Job marked as completed! You can now finish this job.");
+  };
+
+  // Finished Job Click Handler (ලැයිස්තුවෙන් ඉවත් කර Finished Jobs වෙත යැවීම)
+  const handleFinishJob = (e, jobId) => {
+    e.stopPropagation();
+
+    const finishedJob = jobs.find(job => job.id === jobId);
+
+    // Current Jobs ලැයිස්තුවෙන් ඉවත් කිරීම
+    setJobs(jobs.filter(job => job.id !== jobId));
+
+    // Parent component එකට හෝ Finished Jobs file එකට යැවීමට callback එකක් කැඳවීම
+    if (onJobFinished) {
+      onJobFinished(finishedJob);
+    }
+
+    alert("Job moved to Finished Jobs!");
   };
 
   const handleViewGroup = (e, jobId) => {
@@ -91,18 +103,15 @@ export default function YourJobs({ onBackClick, onViewApplications }) {
     console.log(`Navigating to group for Job ${jobId}`);
   };
 
-  // View Applications බොත්තම එබූ විට ක්‍රියාත්මක වන අලුත් function එක
   const handleViewApplications = (e, jobId) => {
     e.stopPropagation();
     setViewingApplicantsFor(jobId);
   };
 
-  // Application Center එකෙන් ඉවත් වීමට අලුත් function එක
   const handleCloseApplications = () => {
     setViewingApplicantsFor(null);
   };
 
-  // බොත්තම ඔබා තිබේ නම් (viewingApplicantsFor හි අගයක් ඇත්නම්), අලුත් ApplicationCenter එක පෙන්වීම
   if (viewingApplicantsFor) {
     return (
       <ApplicationCenter 
@@ -112,7 +121,6 @@ export default function YourJobs({ onBackClick, onViewApplications }) {
     );
   }
 
-  // බොත්තම ඔබා නොමැති නම් සාමාන්‍ය ලැයිස්තුව පෙන්වීම
   return (
     <div className="w-full max-w-4xl mx-auto py-6">
       {/* Header */}
@@ -129,121 +137,139 @@ export default function YourJobs({ onBackClick, onViewApplications }) {
 
       {/* Job Cards List */}
       <div className="flex flex-col gap-4">
-        {jobs.map((job) => {
-          const isExpanded = selectedJobId === job.id;
+        {jobs.length === 0 ? (
+          <div className="text-center py-12 text-gray-400 bg-[#222522] rounded-2xl border border-zinc-800">
+            No active posted jobs found.
+          </div>
+        ) : (
+          jobs.map((job) => {
+            const isExpanded = selectedJobId === job.id;
 
-          return (
-            <div
-              key={job.id}
-              className={`bg-[#222522] border rounded-2xl p-6 transition-all cursor-pointer ${
-                isExpanded ? 'border-[#00c49f]' : 'border-zinc-800 hover:border-zinc-700'
-              }`}
-              onClick={() => toggleJobDetails(job.id)}
-            >
-              {/* Card Header Section */}
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-bold text-white">{job.title}</h3>
-                    <span
-                      className={`text-xs px-3 py-1 rounded-full font-medium ${
-                        job.status === 'Active'
-                          ? 'bg-emerald-500/20 text-[#00c49f] border border-[#00c49f]/30'
-                          : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
-                      }`}
-                    >
-                      {job.status}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-                    <span>📁 {job.category}</span>
-                    <span>💼 {job.type}</span>
-                    <span className="text-emerald-400 font-medium">💵 {job.salary}</span>
-                  </div>
-                </div>
-
-                {/* View Applications බොත්තම */}
-                <div className="flex items-center gap-3 w-full md:w-auto justify-end">
-                  <Button
-                    variant="primary"
-                    onClick={(e) => handleViewApplications(e, job.id)}
-                  >
-                    View Applications
-                  </Button>
-                </div>
-              </div>
-
-              {/* Expand View Details */}
-              {isExpanded && (
-                <div className="mt-6 pt-6 border-t border-zinc-800 flex flex-col gap-6">
-                  
-                  {/* Analytics Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    {/* 1. Offered Salary */}
-                    <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
-                      <span className="text-xs text-gray-400 block mb-1">Offered Salary</span>
-                      <span className="text-base font-bold text-emerald-400">{job.salary}</span>
-                    </div>
-
-                    {/* 2. Total Working Hours */}
-                    <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
-                      <span className="text-xs text-gray-400 block mb-1">Allocated Hours</span>
-                      <span className="text-base font-bold text-yellow-400">⏱️ {job.workingHours}</span>
-                    </div>
-
-                    {/* 3. Positions Needed */}
-                    <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
-                      <span className="text-xs text-gray-400 block mb-1">Positions Needed</span>
-                      <span className="text-base font-bold text-white">{job.positionsNeeded}</span>
-                    </div>
-
-                    {/* 4. Hired / Selected */}
-                    <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
-                      <span className="text-xs text-gray-400 block mb-1">Hired / Positions</span>
-                      <span className="text-base font-bold text-blue-400">
-                        {job.hiredCount} / {job.positionsNeeded}
+            return (
+              <div
+                key={job.id}
+                className={`bg-[#222522] border rounded-2xl p-6 transition-all cursor-pointer ${
+                  isExpanded ? 'border-[#00c49f]' : 'border-zinc-800 hover:border-zinc-700'
+                }`}
+                onClick={() => toggleJobDetails(job.id)}
+              >
+                {/* Card Header Section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-xl font-bold text-white">{job.title}</h3>
+                      <span
+                        className={`text-xs px-3 py-1 rounded-full font-medium ${
+                          job.status === 'Active'
+                            ? 'bg-emerald-500/20 text-[#00c49f] border border-[#00c49f]/30'
+                            : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                        }`}
+                      >
+                        {job.status}
                       </span>
                     </div>
+
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                      <span>📁 {job.category}</span>
+                      <span>💼 {job.type}</span>
+                      <span className="text-emerald-400 font-medium">💵 {job.salary}</span>
+                    </div>
                   </div>
 
-                  {/* Job Description Section */}
-                  <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
-                    <span className="text-xs text-gray-400 block mb-2 font-medium">Job Description</span>
-                    <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
-                      {job.description || "විස්තරයක් ඇතුළත් කර නොමැත."}
-                    </p>
-                  </div>
-
-                  {/* Buttons Section */}
-                  <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
-                    <Button 
-                      variant="gray" 
-                      onClick={(e) => handleViewGroup(e, job.id)}
+                  {/* View Applications බොත්තම */}
+                  <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                    <Button
+                      variant="primary"
+                      onClick={(e) => handleViewApplications(e, job.id)}
                     >
-                      👥 View Group
+                      View Applications
                     </Button>
-
-                    <Button 
-                      variant="primary" 
-                      onClick={(e) => handleStartJob(e, job.id)}
-                    >
-                      ▶ Start Job
-                    </Button>
-
-                    <button
-                      className="px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white rounded-lg text-sm font-medium transition-all"
-                      onClick={(e) => handleEndJob(e, job.id)}
-                    >
-                      ⏹ End Job
-                    </button>
                   </div>
-
                 </div>
-              )}
-            </div>
-          );
-        })}
+
+                {/* Expand View Details */}
+                {isExpanded && (
+                  <div className="mt-6 pt-6 border-t border-zinc-800 flex flex-col gap-6">
+                    
+                    {/* Analytics Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
+                        <span className="text-xs text-gray-400 block mb-1 font-medium">Offered Salary</span>
+                        <span className="text-base font-bold text-emerald-400">{job.salary}</span>
+                      </div>
+
+                      <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
+                        <span className="text-xs text-gray-400 block mb-1 font-medium">Allocated Hours</span>
+                        <span className="text-base font-bold text-yellow-400">⏱️ {job.workingHours}</span>
+                      </div>
+
+                      <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
+                        <span className="text-xs text-gray-400 block mb-1 font-medium">Positions Needed</span>
+                        <span className="text-base font-bold text-white">{job.positionsNeeded}</span>
+                      </div>
+
+                      <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
+                        <span className="text-xs text-gray-400 block mb-1 font-medium">Hired / Positions</span>
+                        <span className="text-base font-bold text-blue-400">
+                          {job.hiredCount} / {job.positionsNeeded}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Job Description Section */}
+                    <div className="bg-[#1a1c1a] p-4 rounded-xl border border-zinc-800/80">
+                      <span className="text-xs text-gray-400 block mb-2 font-medium">Job Description</span>
+                      <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                        {job.description || "විස්තරයක් ඇතුළත් කර නොමැත."}
+                      </p>
+                    </div>
+
+                    {/* Buttons Section (Conditional Rendering) */}
+                    <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
+                      {/* View Group බොත්තම සැමවිටම පවතී */}
+                      <Button 
+                        variant="gray" 
+                        onClick={(e) => handleViewGroup(e, job.id)}
+                      >
+                        👥 View Group
+                      </Button>
+
+                      {/* Job එක Complete වූ පසු 'Finished Job' button එක පමණක් පෙන්වීම */}
+                      {job.status === 'Completed' ? (
+                        <Button 
+                          variant="primary" 
+                          onClick={(e) => handleFinishJob(e, job.id)}
+                        >
+                          ✅ Finished Job
+                        </Button>
+                      ) : (
+                        /* Job එක Active අවස්ථාවේදී Start Job සහ End Job buttons පෙන්වීම */
+                        <>
+                          {!job.jobStarted && (
+                            <Button 
+                              variant="primary" 
+                              onClick={(e) => handleStartJob(e, job.id)}
+                            >
+                              ▶ Start Job
+                            </Button>
+                          )}
+
+                          <button
+                            className="px-4 py-2 bg-red-600/20 text-red-400 border border-red-500/30 hover:bg-red-600 hover:text-white rounded-lg text-sm font-medium transition-all"
+                            onClick={(e) => handleEndJob(e, job.id)}
+                          >
+                            ⏹ End Job
+                          </button>
+                        </>
+                      )}
+                    </div>
+
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
