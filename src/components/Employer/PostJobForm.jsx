@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import Input from '../Ui/Input';
 import Button from '../Ui/Button';
 import { MapPin } from 'lucide-react';
-
-// CSS ගොනුව සම්බන්ධ කිරීම
-import './employer-dashboard.css'; 
+import './employer-dashboard.css';
 
 export default function PostJobForm({ onJobPosted }) {
   const [formData, setFormData] = useState({
@@ -12,22 +9,37 @@ export default function PostJobForm({ onJobPosted }) {
     description: '',
     payment: '',
     location: '',
-    employees: 5,
-    startTime: '',
-    endTime: '',
+    employees: 50,
+    // අලුත් Date State
+    jobDateDay: '',
+    jobDateMonth: '',
+    jobDateYear: '',
+    // අලුත් Time State
+    startHour: '',
+    startMin: '',
+    startAmPm: 'AM',
+    endHour: '',
+    endMin: '',
+    endAmPm: 'PM',
     requirements: ''
   });
 
   const [loading, setLoading] = useState(false);
 
+  // Dropdowns සඳහා අවශ්‍ය දත්ත (Arrays)
+  const days = Array.from({ length: 31 }, (_, i) => i + 1);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const years = [2024, 2025, 2026, 2027];
+  const hours = Array.from({ length: 12 }, (_, i) => i + 1);
+  const minutes = ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'];
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Welcome Name පිටුවට යාම සඳහා Back Function එක
   const handleBack = () => {
     if (onJobPosted) {
-      onJobPosted('overview'); 
+      onJobPosted('overview');
     }
   };
 
@@ -35,16 +47,16 @@ export default function PostJobForm({ onJobPosted }) {
     e.preventDefault();
     setLoading(true);
 
-    console.log("----- නව රැකියා දත්ත -----");
+    console.log("----- Hosa Job Data -----");
     console.log(formData);
     console.log("---------------------------");
 
     setTimeout(() => {
-      alert("රැකියාව සාර්ථකව පළ කරන ලදී! (Backend සම්බන්ධ කර නැත)");
+      alert("Job posted successfully!");
       setLoading(false);
       
       if (onJobPosted) {
-        onJobPosted('yourJobs'); 
+        onJobPosted('yourJobs');
       }
     }, 1000);
   };
@@ -58,13 +70,18 @@ export default function PostJobForm({ onJobPosted }) {
       </div>
 
       <form onSubmit={handleSubmit} className="form-container">
-        <Input
-          label="Job title"
-          name="jobTitle"
-          value={formData.jobTitle}
-          onChange={handleChange}
-          required
-        />
+        
+        <div className="form-group">
+          <label className="form-label">Job title</label>
+          <input
+            type="text"
+            name="jobTitle"
+            value={formData.jobTitle}
+            onChange={handleChange}
+            required
+            placeholder="Enter job title"
+          />
+        </div>
 
         <div className="form-group">
           <label className="form-label">Job description</label>
@@ -75,19 +92,24 @@ export default function PostJobForm({ onJobPosted }) {
             value={formData.description}
             onChange={handleChange}
             required
+            placeholder="Enter job description"
           />
         </div>
 
-        <Input
-          label="Payment"
-          name="payment"
-          value={formData.payment}
-          onChange={handleChange}
-          required
-        />
+        <div className="form-group">
+          <label className="form-label">Payment</label>
+          <input
+            type="text"
+            name="payment"
+            value={formData.payment}
+            onChange={handleChange}
+            required
+            placeholder="e.g., LKR 2500 / day"
+          />
+        </div>
 
-        <div>
-          <label className="form-label block-label">Location</label>
+        <div className="form-group">
+          <label className="form-label">Location</label>
           <div className="location-wrapper">
             <div className="flex-1">
               <input
@@ -97,26 +119,34 @@ export default function PostJobForm({ onJobPosted }) {
                 value={formData.location}
                 onChange={handleChange}
                 required
+                placeholder="Enter location"
               />
             </div>
-            <Button type="button" variant="primary" className="location-btn">
-              <MapPin size={16} />
+            <button type="button" className="location-btn">
+              <MapPin size={18} />
               Choose Location
-            </Button>
+            </button>
           </div>
         </div>
 
-        <div>
-          <label className="form-label block-label-lg">No. of employees needed</label>
+        <div className="form-group">
+          <label className="form-label">No. of employees needed</label>
           <div className="employees-wrapper">
-            <div className="employees-count">
-              {formData.employees}
-            </div>
+            <input
+              type="number"
+              name="employees"
+              min="1"
+              max="500"
+              value={formData.employees}
+              onChange={handleChange}
+              className="employees-count-input"
+              required
+            />
             <input
               type="range"
               name="employees"
               min="1"
-              max="50"
+              max="100"
               value={formData.employees}
               onChange={handleChange}
               className="employees-range"
@@ -124,23 +154,62 @@ export default function PostJobForm({ onJobPosted }) {
           </div>
         </div>
 
+        {/* අලුතින් එක් කළ Custom Date Dropdowns */}
+        <div className="form-group">
+          <label className="form-label">Date</label>
+          <div className="custom-dropdown-group">
+            <select name="jobDateDay" value={formData.jobDateDay} onChange={handleChange} className="form-select" required>
+              <option value="" disabled>Day</option>
+              {days.map(day => <option key={day} value={day}>{day}</option>)}
+            </select>
+            <select name="jobDateMonth" value={formData.jobDateMonth} onChange={handleChange} className="form-select" required>
+              <option value="" disabled>Month</option>
+              {months.map(month => <option key={month} value={month}>{month}</option>)}
+            </select>
+            <select name="jobDateYear" value={formData.jobDateYear} onChange={handleChange} className="form-select" required>
+              <option value="" disabled>Year</option>
+              {years.map(year => <option key={year} value={year}>{year}</option>)}
+            </select>
+          </div>
+        </div>
+
+        {/* අලුතින් එක් කළ Custom Time Dropdowns */}
         <div className="time-grid">
-          <Input
-            label="Start time"
-            type="time"
-            name="startTime"
-            value={formData.startTime}
-            onChange={handleChange}
-            required
-          />
-          <Input
-            label="End time"
-            type="time"
-            name="endTime"
-            value={formData.endTime}
-            onChange={handleChange}
-            required
-          />
+          <div className="form-group">
+            <label className="form-label">Start time</label>
+            <div className="custom-dropdown-group">
+              <select name="startHour" value={formData.startHour} onChange={handleChange} className="form-select" required>
+                <option value="" disabled>Hr</option>
+                {hours.map(h => <option key={h} value={h}>{h}</option>)}
+              </select>
+              <select name="startMin" value={formData.startMin} onChange={handleChange} className="form-select" required>
+                <option value="" disabled>Min</option>
+                {minutes.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+              <select name="startAmPm" value={formData.startAmPm} onChange={handleChange} className="form-select select-sm" required>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
+          
+          <div className="form-group">
+            <label className="form-label">End time</label>
+            <div className="custom-dropdown-group">
+              <select name="endHour" value={formData.endHour} onChange={handleChange} className="form-select" required>
+                <option value="" disabled>Hr</option>
+                {hours.map(h => <option key={h} value={h}>{h}</option>)}
+              </select>
+              <select name="endMin" value={formData.endMin} onChange={handleChange} className="form-select" required>
+                <option value="" disabled>Min</option>
+                {minutes.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+              <select name="endAmPm" value={formData.endAmPm} onChange={handleChange} className="form-select select-sm" required>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         <div className="form-group-last">
@@ -152,17 +221,17 @@ export default function PostJobForm({ onJobPosted }) {
             value={formData.requirements}
             onChange={handleChange}
             required
+            placeholder="Enter job requirements"
           />
         </div>
 
-        {/* Back සහ Post Job බොත්තම් දෙක එක පෙළට */}
         <div className="button-group">
-          <Button type="button" variant="gray" className="btn-half" onClick={handleBack}>
+          <button type="button" variant="gray" className="btn-half" onClick={handleBack}>
             Back
-          </Button>
-          <Button type="submit" variant="primary" className="btn-half" disabled={loading}>
+          </button>
+          <button type="submit" className="btn-half" disabled={loading}>
             {loading ? 'Posting...' : 'Post Job'}
-          </Button>
+          </button>
         </div>
       </form>
     </div>

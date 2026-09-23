@@ -106,126 +106,87 @@ body {
   }
 }
 
-/* ------------------------------------------
-   4. Post Job Form Component (Mobile)
-   ------------------------------------------ */
-@media (max-width: 768px) {
-  form {
-    padding: 1.25rem !important;
-    gap: 1rem !important;
-  }
-
-  /* Form Input Fields - Prevent Zoom on iOS */
-  form input,
-  form select,
-  form textarea {
-    font-size: 16px !important;
-    padding: 0.75rem !important;
-  }
-
-  /* Submit / Cancel Button Container */
-  form .flex.justify-end {
-    flex-direction: column-reverse !important;
-    gap: 0.75rem !important;
-  }
-
-  form .flex.justify-end button {
-    width: 100% !important;
-  }
-}
 /* ==========================================
-   Post Job Form - Styles 
+   Post Job Form 
    ========================================== */
 
 .post-job-container {
-  max-width: 42rem;
-  margin: 0 auto;
+  max-width: 48rem; /* Agala hechchide */
+  margin: 3rem auto;
   width: 100%;
-  background-color: #1a1a1a;
-  padding: 2rem;
-  border-radius: 0.75rem;
+  background-color: #2b2b2b; /* Registration form na background color */
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Registration form tara shadow */
+  box-sizing: border-box;
 }
 
 .header-container {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .header-title {
-  font-size: 1.875rem;
+  font-size: 2rem;
   font-weight: bold;
+  color: #ffffff;
+  margin: 0;
 }
 
 .text-highlight {
-  color: #00c49f;
+  color: #00c49f; /* Registration form na green color */
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem; /* Gap hechchide */
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  margin-bottom: 1rem;
-}
-
+/* Shared form group styles */
+.form-group,
 .form-group-last {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
-  margin-bottom: 1.5rem;
+  gap: 0.5rem; /* Label mattu input madhye gap */
 }
 
 .form-label {
-  font-size: 12px;
-  font-weight: bold;
-  color: #D1D5DB;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d1d5db;
 }
 
-.block-label {
-  display: block;
-  margin-bottom: 0.375rem;
-}
-
-.block-label-lg {
-  display: block;
-  margin-bottom: 0.5rem;
+/* Shared input and textarea styles (Registration form) */
+.form-textarea,
+.location-input,
+.form-container input[type="text"],
+.form-container input[type="time"],
+.form-container input[type="date"] { 
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: #e5e5e5;
+  color: #333333;
+  outline: none;
+  font-size: 1rem;
+  border: none;
+  padding: 0.8rem 1rem;
+  box-sizing: border-box;
 }
 
 .form-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.25rem;
-  background-color: #D9D9D9;
-  color: black;
-  outline: none;
-  font-size: 0.875rem;
-  resize: none;
-  border: none;
+  resize: vertical; /* Resize option */
+  min-height: 80px;
 }
 
 .location-wrapper {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem; /* Button mattu input madhye gap */
+  align-items: center;
 }
 
-.flex-1 {
+.location-wrapper .flex-1 {
   flex: 1;
-}
-
-.location-input {
-  width: 100%;
-  padding: 0.625rem;
-  border-radius: 0.25rem;
-  background-color: #D9D9D9;
-  color: black;
-  outline: none;
-  font-size: 0.875rem;
-  border: none;
 }
 
 .location-btn {
@@ -233,54 +194,213 @@ body {
   gap: 0.5rem !important;
   white-space: nowrap !important;
   height: auto !important;
-  padding: 0.625rem 1rem !important;
+  padding: 0.8rem 1.5rem !important;
+  border-radius: 0.5rem !important;
+  background-color: #00c49f !important; /* Green button */
+  color: white !important;
+  border: none !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.location-btn:hover {
+    background-color: #00a082 !important;
 }
 
 .employees-wrapper {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .employees-count {
-  background-color: #2a2a2a;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  font-size: 1.25rem;
+  background-color: #374151; /* Darker background for count */
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  border: 1px solid #374151;
+  border: 1px solid #4b5563;
+  color: white;
+}
+
+.employees-count-input {
+  background-color: #374151;
+  padding: 0.6rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: 1px solid #4b5563;
+  color: white;
+  width: 70px;
+  text-align: center;
+  outline: none;
+}
+
+/* Number Input එකේ පැත්තෙන් එන උඩ/පහළ ඊතල (arrows) ඉවත් කිරීම */
+.employees-count-input::-webkit-outer-spin-button,
+.employees-count-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.employees-count-input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .employees-range {
   width: 100%;
-  height: 0.25rem;
+  height: 0.4rem; /* Dappa range */
   background-color: #4b5563;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   appearance: none;
   cursor: pointer;
-  accent-color: #00c49f;
+  accent-color: #00c49f; /* Green accent */
+}
+
+.employees-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00c49f;
+  cursor: pointer;
 }
 
 .time-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
-/* button දෙක එක පෙළට තැබීම සඳහා */
+/* Button group styles (Registration form tara) */
 .button-group {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.5rem; /* Gap hechchide */
+  margin-top: 2rem;
 }
 
 .btn-half {
-  flex: 1; /* button දෙකට සමාන ඉඩක් ලබා දීම */
+  flex: 1; 
   width: 100% !important;
+  padding: 1rem !important; /* Dappa button */
+  border-radius: 0.5rem !important;
+  font-weight: bold !important;
+  font-size: 1rem !important;
+  cursor: pointer;
+  border: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Specific button styles override for this context */
+.btn-half[variant="gray"] {
+    background-color: #4b5563 !important;
+    color: white !important;
+}
+
+.btn-half[variant="gray"]:hover {
+    background-color: #374151 !important;
+}
+
+.btn-half[type="submit"] {
+    background-color: #00c49f !important;
+    color: white !important;
+}
+
+.btn-half[type="submit"]:hover {
+    background-color: #00a082 !important;
+}
+
+/* Ensure global box-sizing for the form */
+.post-job-container * {
+    box-sizing: border-box;
 }
 
 /* ==========================================
-   Application Center Styles (Professional UI)
+   Custom Date & Time Selectors
+   ========================================== */
+
+.custom-dropdown-group {
+  display: flex;
+  gap: 0.5rem; /* Dropdowns අතර පරතරය */
+  width: 100%;
+}
+
+.form-select {
+  flex: 1;
+  border-radius: 0.5rem;
+  background-color: #e5e5e5;
+  color: #333333;
+  outline: none;
+  font-size: 0.9rem; /* අකුරු ප්‍රමාණය මඳක් කුඩා කර ඇත */
+  border: 1px solid transparent;
+  padding: 0.6rem 0.5rem; /* උඩ සහ යට padding එක 0.8rem සිට 0.6rem දක්වා අඩු කර ඇත */
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem top 50%; /* ඊතලය තවත් දකුණට ගෙන ඇත */
+  background-size: 0.6rem auto; /* ඊතලයේ ප්‍රමාණය කුඩා කර ඇත */
+  padding-right: 1.25rem; /* ඊතලයට ඉඩ තැබීමට දකුණු පස padding එක අඩු කර ඇත */
+}
+
+.form-select:focus {
+  border-color: #00c49f;
+}
+
+/* Time selector එකේ AM/PM box එක කුඩා කිරීමට */
+.select-sm {
+  flex: 0.6; /* AM/PM කොටුව තවත් කුඩා කර ඇත */
+}
+
+/* ==========================================
+   Mobile View Adjustments for Date & Time
+   ========================================== */
+@media (max-width: 768px) {
+  .post-job-container {
+    padding: 1.5rem !important;
+  }
+
+  /* Start Time සහ End Time එකකට යටින් එකක් වැටෙන්න හැදීම */
+  .time-grid {
+    grid-template-columns: 1fr !important; 
+    gap: 1rem !important;
+  }
+
+  /* Dropdown අතර පරතරය අඩු කිරීම */
+  .custom-dropdown-group {
+    gap: 0.25rem !important; 
+  }
+
+  /* Mobile එකේදී Dropdown වල අකුරු සහ Padding වඩාත් කුඩා කිරීම */
+  .form-select {
+    padding: 0.5rem 0.25rem !important; /* Mobile padding තවදුරටත් අඩු කර ඇත */
+    padding-right: 1rem !important; 
+    font-size: 0.8rem !important; /* Mobile font size කුඩා කර ඇත */
+    background-position: right 0.2rem top 50% !important;
+    background-size: 0.5rem auto !important; /* Mobile හිදී ඊතලය කුඩා කර ඇත */
+  }
+
+  .location-wrapper {
+    flex-direction: column !important;
+  }
+  
+  .location-btn {
+    width: 100% !important;
+  }
+
+  .button-group {
+    flex-direction: column-reverse !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ==========================================
+   Application Center Styles 
    ========================================== */
 
 .app-center-wrapper {
@@ -289,22 +409,22 @@ body {
   padding: 2rem 1rem;
 }
 
-/* Main Card - Sobuj border abong subtle glow add kora hoyeche */
+/* Card එකට Modern Dark පෙනුමක් ලබා දීම */
 .app-card {
   background-color: #1a1a1a; 
-  border: 1px solid #00c49f; /* Sobuj border */
+  border: 1px solid #2a2a2a;
   border-radius: 1rem;
   padding: 1.5rem 2rem 2rem 2rem;
   min-height: 400px;
-  box-shadow: 0 4px 25px rgba(0, 196, 159, 0.1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
-/* Header */
+/* Title සහ Close Button එක එකම පේළියට ගැනීම */
 .app-center-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #2a2a2a;
 }
@@ -320,10 +440,11 @@ body {
   color: #00c49f;
 }
 
+/* Close Button එක වඩාත් සියුම් (Subtle) කිරීම */
 .close-btn-top {
   background: transparent;
   border: none;
-  color: #6b7280;
+  color: #6b7280; /* සාමාන්‍ය වෙලාවට අළු පාටයි */
   cursor: pointer;
   transition: color 0.2s, transform 0.2s;
   display: flex;
@@ -332,11 +453,11 @@ body {
 }
 
 .close-btn-top:hover {
-  color: #ef4444;
+  color: #ef4444; /* Hover කළ විට පමණක් රතු වේ */
   transform: scale(1.1);
 }
 
-/* List View */
+/* List View Styles */
 .applicant-list {
   display: flex;
   flex-direction: column;
@@ -381,6 +502,7 @@ body {
   gap: 1rem;
 }
 
+/* ලැයිස්තුවේ අකුරු වලට වෙනස් Styles දීම */
 .app-name-text {
   color: #ffffff;
   font-weight: 600;
@@ -403,27 +525,26 @@ body {
   border-radius: 1rem;
 }
 
-/* Detail View (Applicant Details) */
+/* Detail View Styles */
 .detail-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-top: 1rem;
 }
 
 @media (min-width: 768px) {
   .detail-container {
     flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
   }
 }
 
-/* Bam pasher input fields */
 .detail-left {
   flex: 2;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  justify-content: center;
+  gap: 1rem;
 }
 
 .info-group {
@@ -433,45 +554,40 @@ body {
 }
 
 .info-label {
-  width: 130px;
+  width: 140px;
   color: #9ca3af;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
+/* ලා පාට කොටු වෙනුවට Modern Input style එකක් ලබා දීම */
 .info-box {
   flex: 1;
-  background-color: transparent; 
+  background-color: #222522; 
   color: #e5e7eb;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #374151; /* Clean border */
-  font-size: 0.9rem;
-  transition: border-color 0.2s;
+  border: 1px solid #374151;
+  font-size: 0.875rem;
 }
 
-.info-box:hover {
-  border-color: #4b5563;
-}
-
-/* Dan pasher profile card */
 .detail-right {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 1rem;
-  background-color: #222522; /* Ektu onno grey color */
+  background-color: #222522;
   border: 1px solid #2a2a2a;
   border-radius: 1rem;
-  padding: 2.5rem 1.5rem;
+  padding: 2rem 1rem;
 }
 
 .profile-avatar-large {
   width: 5rem;
   height: 5rem;
-  background-color: #374151;
+  background-color: #2a2a2a;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -482,7 +598,7 @@ body {
 
 .profile-username {
   color: #ffffff;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: bold;
 }
 
@@ -492,20 +608,20 @@ body {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .action-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 1rem;
   width: 100%;
   justify-content: center;
 }
 
 .back-to-list-btn {
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
   color: #9ca3af;
   background: none;
   border: none;
