@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { User, X, Star } from 'lucide-react';
+import { User, X, Star, ArrowLeft } from 'lucide-react';
 import Button from '../Ui/Button';
 import './employer-dashboard.css';
 
-export default function ApplicantCenter({ jobId, onClose }) {
-  // රූපයේ දැක්වෙන දත්ත (Mock Data)
+export default function ApplicationCenter({ jobId, onClose }) {
   const [applicants, setApplicants] = useState([
     {
       id: 1,
@@ -62,22 +61,24 @@ export default function ApplicantCenter({ jobId, onClose }) {
 
   return (
     <div className="app-center-wrapper">
-      <h2 className="app-center-title">Welcome To Application Center</h2>
-
       <div className="app-card">
-        {/* රූපයේ ඇති රතු පැහැති කතිරය */}
-        {!selectedApplicant && (
-          <button className="close-btn-top" onClick={onClose}>
-            <X size={40} strokeWidth={4} />
-          </button>
-        )}
+        
+        <div className="app-center-header">
+          <h2 className="app-center-title">
+            Application <span>Center</span>
+          </h2>
+          {!selectedApplicant && (
+            <button className="close-btn-top" onClick={onClose} title="Close">
+              <X size={24} strokeWidth={2.5} />
+            </button>
+          )}
+        </div>
 
-        {/* ලැයිස්තුව පෙන්වීම */}
         {!selectedApplicant ? (
           <div className="applicant-list">
             {applicants.length === 0 ? (
-              <div style={{ textAlign: 'center', color: 'white', marginTop: '2rem' }}>
-                No applicants found.
+              <div style={{ textAlign: 'center', color: '#9ca3af', marginTop: '3rem' }}>
+                No applicants found for this job.
               </div>
             ) : (
               applicants.map((app) => (
@@ -87,20 +88,20 @@ export default function ApplicantCenter({ jobId, onClose }) {
                   onClick={() => setSelectedApplicant(app)}
                 >
                   <div className="app-avatar-wrapper">
-                    <User size={32} />
+                    <User size={20} />
                   </div>
                   <div className="app-row-details">
-                    <span className="app-text-green">{app.username}</span>
-                    <span className="app-text-green">{app.jobTitle}</span>
-                    <span className="app-text-green">{app.date}</span>
-                    <span className="app-text-green">{app.time}</span>
+                    <span className="app-name-text">{app.username}</span>
+                    <span className="app-job-text">{app.jobTitle}</span>
+                    <span className="app-date-text">
+                      {app.date} • {app.time}
+                    </span>
                   </div>
                 </div>
               ))
             )}
           </div>
         ) : (
-          /* තෝරාගත් අයගේ විස්තර පෙන්වීම */
           <div className="detail-container">
             <div className="detail-left">
               <div className="info-group">
@@ -127,25 +128,25 @@ export default function ApplicantCenter({ jobId, onClose }) {
 
             <div className="detail-right">
               <div className="profile-avatar-large">
-                <User size={64} color="#4b5563" />
+                <User size={40} />
               </div>
               <span className="profile-username">{selectedApplicant.username}</span>
               <span className="profile-rating">
-                <Star fill="currentColor" size={20} /> {selectedApplicant.rating}
+                <Star fill="currentColor" size={16} /> {selectedApplicant.rating}
               </span>
               
               <div className="action-buttons">
                 <Button 
                   variant="red" 
                   onClick={() => handleReject(selectedApplicant.id)}
-                  style={{ borderRadius: '0.5rem', padding: '0.5rem 2rem' }}
+                  style={{ borderRadius: '0.5rem', padding: '0.625rem 1.5rem', flex: 1 }}
                 >
                   Reject
                 </Button>
                 <Button 
                   variant="primary" 
                   onClick={() => handleAccept(selectedApplicant.id)}
-                  style={{ borderRadius: '0.5rem', padding: '0.5rem 2rem' }}
+                  style={{ borderRadius: '0.5rem', padding: '0.625rem 1.5rem', flex: 1 }}
                 >
                   Accept
                 </Button>
@@ -155,7 +156,7 @@ export default function ApplicantCenter({ jobId, onClose }) {
                 onClick={() => setSelectedApplicant(null)}
                 className="back-to-list-btn"
               >
-                ← Back to List
+                <ArrowLeft size={16} /> Back to List
               </button>
             </div>
           </div>
