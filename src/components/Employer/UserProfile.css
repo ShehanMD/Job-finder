@@ -1,0 +1,286 @@
+.profile-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 80px;
+
+  z-index: 1000;
+}
+
+.profile-box {
+  width: 395px;
+  min-height: 335px;
+
+  background: #181717;
+  color: white;
+
+  border-radius: 15px;
+  border: 2px solid #111;
+
+  padding: 18px;
+
+  position: relative;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* Close */
+
+.close-btn {
+  position: absolute;
+
+  top: 5px;
+  right: 8px;
+
+  background: none;
+  border: none;
+
+  color: red;
+  font-size: 25px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+/* Profile top */
+
+.profile-top {
+  display: flex;
+  gap: 25px;
+  margin-top: 5px;
+}
+
+/* Avatar */
+
+.profile-left {
+  width: 145px;
+  text-align: center;
+}
+
+.big-avatar {
+  width: 90px;
+  height: 90px;
+
+  background: white;
+
+  border: 5px solid red;
+  border-radius: 50%;
+
+  margin: auto;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-head {
+  width: 29px;
+  height: 29px;
+
+  background: #72a3e7;
+
+  border-radius: 50%;
+
+  position: absolute;
+
+  top: 12px;
+  left: 26px;
+}
+
+.avatar-body {
+  width: 58px;
+  height: 37px;
+
+  background: #72a3e7;
+
+  border-radius: 50% 50% 45% 45%;
+
+  position: absolute;
+
+  bottom: 6px;
+  left: 11px;
+}
+
+.name-label {
+  display: inline-block;
+
+  background: red;
+
+  padding: 4px 10px;
+
+  font-size: 12px;
+  font-weight: bold;
+
+  margin-top: -2px;
+}
+
+.profile-line {
+  width: 112px;
+  height: 4px;
+
+  background: #444;
+
+  margin: 10px auto;
+
+  border-radius: 5px;
+}
+
+/* User info */
+
+.user-info {
+  width: 185px;
+
+  background: #292727;
+
+  border-radius: 8px;
+
+  padding: 10px;
+}
+
+.user-info h5 {
+  color: #555;
+
+  font-size: 8px;
+
+  margin-bottom: 5px;
+}
+
+.info-row {
+  height: 12px;
+
+  background: #555;
+
+  border-radius: 10px;
+
+  margin-bottom: 4px;
+
+  font-size: 7px;
+
+  padding-left: 8px;
+
+  display: flex;
+  align-items: center;
+}
+
+/* History */
+
+.history {
+  text-align: right;
+
+  color: #00aaaa;
+
+  font-size: 9px;
+
+  margin-top: 3px;
+}
+
+/* Job */
+
+.job-title {
+  color: #00aaaa;
+
+  font-size: 10px;
+
+  margin: 8px 0;
+}
+
+.job-card {
+  background: #1d1c20;
+
+  border: 1px solid #111;
+
+  border-radius: 10px;
+
+  padding: 12px;
+
+  min-height: 140px;
+}
+
+.job-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.company-logo {
+  width: 40px;
+  height: 30px;
+
+  background: white;
+
+  color: #991c1c;
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.company-name {
+  font-size: 10px;
+  color: #ddd;
+}
+
+.applicants {
+  margin-left: auto;
+
+  font-size: 9px;
+}
+
+.job-card h3 {
+  font-size: 13px;
+
+  font-weight: normal;
+
+  margin-bottom: 8px;
+}
+
+.job-details {
+  color: #00aaaa;
+
+  font-size: 10px;
+
+  line-height: 19px;
+}
+
+.job-bottom {
+  display: flex;
+
+  justify-content: flex-end;
+
+  margin-top: -20px;
+}
+
+.job-bottom button {
+  background: #24545a;
+
+  border: 1px solid #008b8b;
+
+  color: white;
+
+  padding: 6px 13px;
+
+  border-radius: 15px;
+
+  font-size: 9px;
+
+  cursor: pointer;
+}
+
+.job-bottom button:hover {
+  background: #008b8b;
+}
