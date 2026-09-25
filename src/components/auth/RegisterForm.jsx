@@ -1,20 +1,14 @@
 import React from 'react';
-
+import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 
-import GoogleLogin from "../firebase/GoogleLoginBT";
+import Button from '../Ui/Button';
+import Input from '../Ui/Input';   
 
-
-
-export default function RegisterForm({ role, employerType, formData, handleInputChange, onNext, onBack }) {
-
-
-  const PassSame=formData.password == formData.confirmPassword
+export default function RegisterForm({ role, employerType, formData, handleInputChange, onNext, onBack}) {
 
   return (
     <div>
-
-
       <div className="text-center mb-6">
         <h2 className="text-3xl font-bold">Registration</h2>
         <span className="text-xs text-[#00c49f] mt-1 inline-block">
@@ -45,17 +39,15 @@ export default function RegisterForm({ role, employerType, formData, handleInput
           required
         />
 
-        <div>
-          <label className="block text-xs text-gray-300 font-semibold mb-1">Confirm Password</label>
-          <input 
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            required
-            className={`w-full px-4 py-2 bg-[#d9d9d9] text-black rounded focus:outline-none focus:ring-2 focus:ring-[#00c49f]` + (PassSame?' ':' ErrorINPIUT')}
-          />
-        </div>
+        <Input
+          label="Confirm Password"
+          type="password"
+          name="confirmPassword"
+          placeholder={"Confirm your password"}
+          value={formData.confirmPassword || ''}
+          onChange={handleInputChange}
+          required
+        />
 
         <div className="flex gap-4 pt-2">
           <Button type="submit" variant="primary" className="flex-1">
@@ -68,22 +60,15 @@ export default function RegisterForm({ role, employerType, formData, handleInput
       </form>
 
       <div className="mt-6 space-y-3">
-        <GoogleLogin />
-        <button className="w-full flex items-center justify-center gap-2 bg-white text-black py-2 rounded font-medium text-sm hover:bg-gray-100 transition">
+        <Button type="button" variant="white" className="w-full gap-2">
+          <FcGoogle className="text-lg" />
+          Login with Google
+        </Button>
+        
+        <Button type="button" variant="white" className="w-full gap-2">
           <FaFacebook className="text-blue-600 text-lg" />
           Login with Facebook
-        </button>
-
-
-
-
-
-
-
-
-
-
-
+        </Button>
       </div>
     </div>
   );
