@@ -13,59 +13,65 @@ const UserProfile = ({ onClose }) => {
           ×
         </button>
 
+        {/* Glow blobs (decorative background) */}
+        <div className="glow glow-purple"></div>
+        <div className="glow glow-teal"></div>
+        <div className="glow glow-gold"></div>
+
         {/* Profile Top */}
         <div className="profile-top">
 
           {/* Profile Image */}
           <div className="profile-left">
             <div className="big-avatar">
+              <span className="avatar-ear avatar-ear-left"></span>
+              <span className="avatar-ear avatar-ear-right"></span>
               <div className="avatar-head"></div>
               <div className="avatar-body"></div>
+              <span className="status-dot"></span>
             </div>
 
             <div className="name-label">
-              NAME
+             වෙල්වට් pnny
             </div>
 
-            <div className="profile-line"></div>
+            <div className="profile-line">
+              <div className="profile-line-fill"></div>
+            </div>
           </div>
 
           {/* User Info */}
           <div className="user-info">
 
-            <h5>USER INFO</h5>
+            <h5>User info</h5>
 
             <div className="info-row">
-              📍 ADDRESS
+              <span className="info-icon">📍</span> Address
             </div>
 
             <div className="info-row">
-              🎂 AGE
+              <span className="info-icon">🎂</span> Age
             </div>
 
             <div className="info-row">
-              📞 WH NUMBER
+              <span className="info-icon">📞</span> WH number
             </div>
 
             <div className="info-row">
-              📱 TEL NUMBER
+              <span className="info-icon">📱</span> Tel number
             </div>
 
             <div className="info-row">
-              🏠 ADDRESS
+              <span className="info-icon">🏠</span> Address
             </div>
 
           </div>
         </div>
 
-        {/* History */}
-        <div className="history">
-          My History
-        </div>
-
-        {/* My Job */}
-        <div className="job-title">
-          My Job
+        {/* Tabs */}
+        <div className="tabs-row">
+          <div className="tab tab-active">My job</div>
+          <div className="tab">My history</div>
         </div>
 
         {/* Job Card */}
@@ -78,7 +84,7 @@ const UserProfile = ({ onClose }) => {
             </div>
 
             <div className="company-name">
-              Navina DSI Show Room
+              Naviina DSI Show Room
             </div>
 
             <div className="applicants">
@@ -92,18 +98,14 @@ const UserProfile = ({ onClose }) => {
           </h3>
 
           <div className="job-details">
-            💰 Rs. 2,000/day
-            <br />
-
-            📍 Colombo
-            <br />
-
-            ⏰ 8:00 AM - 5:00 PM
+            <div className="job-detail-row">💰 Rs. 2,000/day</div>
+            <div className="job-detail-row">📍 Colombo</div>
+            <div className="job-detail-row">⏰ 8:00 AM - 5:00 PM</div>
           </div>
 
           <div className="job-bottom">
             <button>
-              View job
+              View job →
             </button>
           </div>
 
