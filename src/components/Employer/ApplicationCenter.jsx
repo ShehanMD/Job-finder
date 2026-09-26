@@ -136,17 +136,37 @@ export default function ApplicationCenter({ jobId, onClose }) {
               </span>
               
               <div className="action-buttons">
+                {/* Reject Button - Outline style to make it look professional */}
                 <Button 
-                  variant="red" 
                   onClick={() => handleReject(selectedApplicant.id)}
-                  style={{ borderRadius: '0.5rem', padding: '0.625rem 1.5rem', flex: 1 }}
+                  style={{ 
+                    backgroundColor: 'transparent', 
+                    color: '#ef4444', 
+                    border: '1px solid #ef4444',
+                    borderRadius: '0.5rem', 
+                    padding: '0.625rem 1.5rem', 
+                    flex: 1,
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)' }}
+                  onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent' }}
                 >
                   Reject
                 </Button>
+
+                {/* Accept Button - Solid Primary Style */}
                 <Button 
-                  variant="primary" 
                   onClick={() => handleAccept(selectedApplicant.id)}
-                  style={{ borderRadius: '0.5rem', padding: '0.625rem 1.5rem', flex: 1 }}
+                  style={{ 
+                    backgroundColor: '#00c49f', 
+                    color: '#121212', 
+                    border: '1px solid #00c49f',
+                    borderRadius: '0.5rem', 
+                    padding: '0.625rem 1.5rem', 
+                    flex: 1,
+                    fontWeight: 'bold',
+                    boxShadow: '0 4px 15px rgba(0, 196, 159, 0.2)'
+                  }}
                 >
                   Accept
                 </Button>
