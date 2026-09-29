@@ -278,8 +278,10 @@ export default function Home() {
             </div>
           </section>
           
+          {/* Tempory butons */}
             
             <Button onClick={() => navigate('/employer')} style={{marginTop: '20px'}}>To Employeer Dashboard</Button>
+            <Button onClick={() => navigate('/seeker')} style={{marginTop: '20px'}}>To Seeker Dashboard</Button>
           
         </main>
       )}

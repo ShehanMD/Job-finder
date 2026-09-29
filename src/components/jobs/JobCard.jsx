@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './JobCard.module.css';
-
 import { FaUserCircle, FaMoneyBillWave, FaMapMarkerAlt, FaRegClock, FaCircle } from 'react-icons/fa';
 
 export const JobCard = ({ 
@@ -12,11 +11,11 @@ export const JobCard = ({
   title, 
   payment, 
   location, 
-  time 
+  time,
+  onViewJob 
 }) => {
   return (
     <div className={styles.card}>
-
       <div className={styles.header}>
         <div className={styles.companyInfo}>
           <div className={styles.logoContainer}>
@@ -34,7 +33,6 @@ export const JobCard = ({
         </div>
       </div>
 
-   
       {isUrgent && (
         <div className={styles.urgentBadge}>
           <FaCircle className={styles.redDot} /> Urgent
@@ -56,7 +54,8 @@ export const JobCard = ({
           </div>
         </div>
         
-        <button className={styles.viewBtn}>View job</button>
+        {/* මෙතන button එකට onClick එක දෙන්න */}
+        <button className={styles.viewBtn} onClick={onViewJob}>View job</button>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import EmployerDashboard from './components/Employer/EmployerDashboard';
 import UserProfile from './components/Employer/UserProfile'
 import {customBase} from "./components/firebase/customBase"
+import SeekerDashboard from './components/Seeker/SeekerDashboard';
 
 
 
@@ -39,6 +40,7 @@ export default function App() {
       <Route path="/about" element={<About />} />
       <Route path="/employer" element={<EmployerDashboard />} />
       <Route path="/profile" element={<UserProfile />} />
+      <Route path="/seeker" element={<SeekerDashboard/>} />
     </Routes>
   );
 }
