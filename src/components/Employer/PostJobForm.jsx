@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../Ui/Button';
 import { MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
 import './employer-dashboard.css';
 
 export default function PostJobForm({ onJobPosted }) {
@@ -62,7 +63,12 @@ export default function PostJobForm({ onJobPosted }) {
   };
 
   return (
-    <div className="post-job-container">
+    <motion.div 
+      className="post-job-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
       <div className="header-container">
         <h2 className="header-title">
           <span className="text-highlight">Post</span> a Job
@@ -234,6 +240,6 @@ export default function PostJobForm({ onJobPosted }) {
           </Button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

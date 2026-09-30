@@ -1,4 +1,3 @@
-
 // import React, { useState } from 'react';
 // import Navbar from '../layout/Navbar';
 // import EmployerOverview from './EmployerOverview';
@@ -90,6 +89,7 @@ import EmployerOverview from './EmployerOverview';
 import PostJobForm from './PostJobForm';
 import YourJobs from './YourJobs';
 import FinishedJobs from './FinishedJob'; // FinishedJobs component එක import කරගන්න
+import { motion, AnimatePresence } from 'framer-motion';
 import './employer-dashboard.css';
 
 export default function EmployerDashboard() {
@@ -155,44 +155,78 @@ export default function EmployerDashboard() {
       />
 
       <main className="flex-1 p-6 max-w-5xl mx-auto w-full flex flex-col justify-center">
-        {activeTab === 'overview' && (
-          <EmployerOverview 
-            stats={{
-              activeJobs: jobs.length, // Dynamic ලෙස active jobs ගණන පෙන්වයි
-              receivedApplications: 75,
-              finishedJobs: finishedJobs.length // Dynamic ලෙස finished jobs ගණන පෙන්වයි
-            }}
-            onPostJobClick={() => setActiveTab('postJob')} 
-            onSeeJobsClick={() => setActiveTab('yourJobs')}
-            onActiveJobsClick={() => setActiveTab('yourJobs')}
-            onApplicationsClick={() => setActiveTab('applications')}
-            onFinishedJobsClick={() => setActiveTab('finishedJobs')}
-          />
-        )}
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
+            <motion.div
+              key="overview"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              <EmployerOverview 
+                stats={{
+                  activeJobs: jobs.length, // Dynamic ලෙස active jobs ගණන පෙන්වයි
+                  receivedApplications: 75,
+                  finishedJobs: finishedJobs.length // Dynamic ලෙස finished jobs ගණන පෙන්වයි
+                }}
+                onPostJobClick={() => setActiveTab('postJob')} 
+                onSeeJobsClick={() => setActiveTab('yourJobs')}
+                onActiveJobsClick={() => setActiveTab('yourJobs')}
+                onApplicationsClick={() => setActiveTab('applications')}
+                onFinishedJobsClick={() => setActiveTab('finishedJobs')}
+              />
+            </motion.div>
+          )}
 
-        {/* PostJobForm Component */}
-        {activeTab === 'postJob' && (
-          <PostJobForm onJobPosted={handleAddJob} />
-        )}
+          {/* PostJobForm Component */}
+          {activeTab === 'postJob' && (
+            <motion.div
+              key="postJob"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              <PostJobForm onJobPosted={handleAddJob} />
+            </motion.div>
+          )}
 
-        {/* YourJobs Component */}
-        {activeTab === 'yourJobs' && (
-          <YourJobs 
-            jobs={jobs}
-            setJobs={setJobs}
-            onJobFinished={handleFinishJob}
-            onBackClick={() => setActiveTab('overview')}
-            onViewApplications={(jobId) => setActiveTab('applications')}
-          />
-        )}
+          {/* YourJobs Component */}
+          {activeTab === 'yourJobs' && (
+            <motion.div
+              key="yourJobs"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              <YourJobs 
+                jobs={jobs}
+                setJobs={setJobs}
+                onJobFinished={handleFinishJob}
+                onBackClick={() => setActiveTab('overview')}
+                onViewApplications={(jobId) => setActiveTab('applications')}
+              />
+            </motion.div>
+          )}
 
-        {/* FinishedJobs Component */}
-        {activeTab === 'finishedJobs' && (
-          <FinishedJobs 
-            finishedJobs={finishedJobs}
-            onBackClick={() => setActiveTab('overview')}
-          />
-        )}
+          {/* FinishedJobs Component */}
+          {activeTab === 'finishedJobs' && (
+            <motion.div
+              key="finishedJobs"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              <FinishedJobs 
+                finishedJobs={finishedJobs}
+                onBackClick={() => setActiveTab('overview')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
     </div>
   );

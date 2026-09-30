@@ -1,9 +1,15 @@
 import React from 'react';
 import Button from '../Ui/Button';
+import { motion } from 'framer-motion';
 
 export default function FinishedJobs({ finishedJobs = [], onBackClick }) {
   return (
-    <div className="w-full max-w-4xl mx-auto py-6">
+    <motion.div 
+      className="w-full max-w-4xl mx-auto py-6"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-3xl font-bold text-white">
           Finished <span className="text-[#00c49f]">Jobs</span>
@@ -17,13 +23,21 @@ export default function FinishedJobs({ finishedJobs = [], onBackClick }) {
 
       <div className="flex flex-col gap-4">
         {finishedJobs.length === 0 ? (
-          <div className="text-center py-12 text-gray-400 bg-[#222522] rounded-2xl border border-zinc-800">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className="text-center py-12 text-gray-400 bg-[#222522] rounded-2xl border border-zinc-800"
+          >
             No finished jobs available yet.
-          </div>
+          </motion.div>
         ) : (
-          finishedJobs.map((job) => (
-            <div
+          finishedJobs.map((job, index) => (
+            <motion.div
               key={job.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
               className="bg-[#222522] border border-zinc-800 rounded-2xl p-6"
             >
               <div className="flex justify-between items-center">
@@ -40,10 +54,10 @@ export default function FinishedJobs({ finishedJobs = [], onBackClick }) {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

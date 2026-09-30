@@ -261,7 +261,7 @@
 .btn-share-location:hover { background-color: #00b89c; }
 
 .btn-quit-work {
-    background-color: #ff3b30;
+    background-color: #ff0d00;
     color: white;
     border: none;
     padding: 14px 40px;
@@ -271,7 +271,7 @@
     cursor: pointer;
     transition: 0.3s;
 }
-.btn-quit-work:hover { background-color: #ff1a0d; }
+.btn-quit-work:hover { background-color: #ff5e56; }
 
 .warning-text-small {
     color: #8E8E93;
@@ -292,6 +292,7 @@
     text-align: center;
 }
 .btn-test {
+    
     margin-top: 10px;
     padding: 8px 15px;
     background: #00d1b2;
@@ -336,6 +337,7 @@
     fill: transparent;
     stroke-linecap: round;
     transition: stroke-dashoffset 1s linear, stroke 0.4s ease;
+    
 }
 
 .timer-text-content {

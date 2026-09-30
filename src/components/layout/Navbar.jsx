@@ -22,12 +22,37 @@ export const Navbar = ({
     }
   };
 
+
+  const handleScrollToHome = (e) => {
+    closeMenu();
+    
+   
+    if (window.location.pathname === '/' || window.location.pathname === '') {
+      e.preventDefault(); 
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    }
+    
+  };
+
+
+  const handleScrollToAbout = (e) => {
+    closeMenu();
+    
+    const aboutSection = document.getElementById("about-section");
+    if (aboutSection) {
+      e.preventDefault();
+      aboutSection.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/#about-section";
+    }
+  };
+
   const isNavbarTransparent = isLoggedIn || transparent;
 
   return (
     <nav className={`${styles.navbar} ${isNavbarTransparent ? styles.transparent : ''}`}>
       
-      {/* User Icon so a naatii */}
+      {/* User Icon */}
       {isLoggedIn && (
         <div className={styles.userIconWrapper}>
           <a
@@ -43,18 +68,20 @@ export const Navbar = ({
 
       {/* Navigation Menu */}
       <div className={`${styles.navMenu} ${isOpen ? styles.active : ''}`}>
+        
         <a 
           href="/" 
           className={styles.navLink}
-          onClick={() => closeMenu()} 
+          onClick={handleScrollToHome}
         >
           Home
         </a>
 
+        {/* About Link */}
         <a 
-          href="/about" 
+          href="#about-section" 
           className={styles.navLink}
-          onClick={() => closeMenu()}
+          onClick={handleScrollToAbout}
         >
           About
         </a>

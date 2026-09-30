@@ -58,7 +58,9 @@ export default function Timer({ isActive, totalHours = 8 }) {
                         style={{ 
                             strokeDasharray: circumference, 
                             strokeDashoffset: isActive ? hrsOffset : circumference,
-                            stroke: isActive ? '#34C759' : '#3A3A3C' // Green if active, Dark Grey if inactive
+                            transition: 'background-color 0.3s, transform 0.2s',
+                            boxShadow: '0 0 20px rgba(0, 209, 178, 0.7)',
+                            stroke: isActive ? '#2bff00' : '#3A3A3C' // Green if active, Dark Grey if inactive
                         }} 
                     />
                 </svg>
@@ -81,7 +83,7 @@ export default function Timer({ isActive, totalHours = 8 }) {
                         style={{ 
                             strokeDasharray: circumference, 
                             strokeDashoffset: isActive ? minsOffset : circumference,
-                            stroke: isActive ? '#34C759' : '#3A3A3C'
+                            stroke: isActive ? '#2bff00' : '#3A3A3C'
                         }} 
                     />
                 </svg>
@@ -104,7 +106,7 @@ export default function Timer({ isActive, totalHours = 8 }) {
                         style={{ 
                             strokeDasharray: circumference, 
                             strokeDashoffset: isActive ? secsOffset : circumference,
-                            stroke: isActive ? '#34C759' : '#3A3A3C'
+                            stroke: isActive ? '#2bff00' : '#3A3A3C'
                         }} 
                     />
                 </svg>

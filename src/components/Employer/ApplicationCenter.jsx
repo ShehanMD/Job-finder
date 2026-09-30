@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, X, Star, ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../Ui/Button';
 import './employer-dashboard.css';
 
@@ -60,8 +61,18 @@ export default function ApplicationCenter({ jobId, onClose }) {
   };
 
   return (
-    <div className="app-center-wrapper">
-      <div className="app-card">
+    <motion.div 
+      className="app-center-wrapper"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <motion.div 
+        className="app-card"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
         
         <div className="app-center-header">
           <h2 className="app-center-title">
@@ -74,114 +85,135 @@ export default function ApplicationCenter({ jobId, onClose }) {
           )}
         </div>
 
-        {!selectedApplicant ? (
-          <div className="applicant-list">
-            {applicants.length === 0 ? (
-              <div style={{ textAlign: 'center', color: '#9ca3af', marginTop: '3rem' }}>
-                No applicants found for this job.
-              </div>
-            ) : (
-              applicants.map((app) => (
-                <div 
-                  key={app.id} 
-                  className="applicant-row"
-                  onClick={() => setSelectedApplicant(app)}
-                >
-                  <div className="app-avatar-wrapper">
-                    <User size={20} />
-                  </div>
-                  <div className="app-row-details">
-                    <span className="app-name-text">{app.username}</span>
-                    <span className="app-job-text">{app.jobTitle}</span>
-                    <span className="app-date-text">
-                      {app.date} • {app.time}
-                    </span>
-                  </div>
+        <AnimatePresence mode="wait">
+          {!selectedApplicant ? (
+            <motion.div 
+              key="list-view"
+              className="applicant-list"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+            >
+              {applicants.length === 0 ? (
+                <div style={{ textAlign: 'center', color: '#9ca3af', marginTop: '3rem' }}>
+                  No applicants found for this job.
                 </div>
-              ))
-            )}
-          </div>
-        ) : (
-          <div className="detail-container">
-            <div className="detail-left">
-              <div className="info-group">
-                <span className="info-label">Full Name</span>
-                <div className="info-box">{selectedApplicant.fullName}</div>
+              ) : (
+                applicants.map((app, index) => (
+                  <motion.div 
+                    key={app.id} 
+                    className="applicant-row"
+                    onClick={() => setSelectedApplicant(app)}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.2 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <div className="app-avatar-wrapper">
+                      <User size={20} />
+                    </div>
+                    <div className="app-row-details">
+                      <span className="app-name-text">{app.username}</span>
+                      <span className="app-job-text">{app.jobTitle}</span>
+                      <span className="app-date-text">
+                        {app.date} • {app.time}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="detail-view"
+              className="detail-container"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="detail-left">
+                <div className="info-group">
+                  <span className="info-label">Full Name</span>
+                  <div className="info-box">{selectedApplicant.fullName}</div>
+                </div>
+                <div className="info-group">
+                  <span className="info-label">ID Number</span>
+                  <div className="info-box">{selectedApplicant.idNumber}</div>
+                </div>
+                <div className="info-group">
+                  <span className="info-label">Contact Number</span>
+                  <div className="info-box">{selectedApplicant.contactNumber}</div>
+                </div>
+                <div className="info-group">
+                  <span className="info-label">WhatsApp Number</span>
+                  <div className="info-box">{selectedApplicant.whatsappNumber}</div>
+                </div>
+                <div className="info-group">
+                  <span className="info-label">Address</span>
+                  <div className="info-box">{selectedApplicant.address}</div>
+                </div>
               </div>
-              <div className="info-group">
-                <span className="info-label">ID Number</span>
-                <div className="info-box">{selectedApplicant.idNumber}</div>
-              </div>
-              <div className="info-group">
-                <span className="info-label">Contact Number</span>
-                <div className="info-box">{selectedApplicant.contactNumber}</div>
-              </div>
-              <div className="info-group">
-                <span className="info-label">WhatsApp Number</span>
-                <div className="info-box">{selectedApplicant.whatsappNumber}</div>
-              </div>
-              <div className="info-group">
-                <span className="info-label">Address</span>
-                <div className="info-box">{selectedApplicant.address}</div>
-              </div>
-            </div>
 
-            <div className="detail-right">
-              <div className="profile-avatar-large">
-                <User size={40} />
-              </div>
-              <span className="profile-username">{selectedApplicant.username}</span>
-              <span className="profile-rating">
-                <Star fill="currentColor" size={16} /> {selectedApplicant.rating}
-              </span>
-              
-              <div className="action-buttons">
-                {/* Reject Button - Outline style to make it look professional */}
-                <Button 
-                  onClick={() => handleReject(selectedApplicant.id)}
-                  style={{ 
-                    backgroundColor: 'transparent', 
-                    color: '#ef4444', 
-                    border: '1px solid #ef4444',
-                    borderRadius: '0.5rem', 
-                    padding: '0.625rem 1.5rem', 
-                    flex: 1,
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => { e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)' }}
-                  onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent' }}
+              <div className="detail-right">
+                <div className="profile-avatar-large">
+                  <User size={40} />
+                </div>
+                <span className="profile-username">{selectedApplicant.username}</span>
+                <span className="profile-rating">
+                  <Star fill="currentColor" size={16} /> {selectedApplicant.rating}
+                </span>
+                
+                <div className="action-buttons">
+                  {/* Reject Button - Outline style to make it look professional */}
+                  <Button 
+                    onClick={() => handleReject(selectedApplicant.id)}
+                    style={{ 
+                      backgroundColor: 'transparent', 
+                      color: '#ef4444', 
+                      border: '1px solid #ef4444',
+                      borderRadius: '0.5rem', 
+                      padding: '0.625rem 1.5rem', 
+                      flex: 1,
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => { e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)' }}
+                    onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent' }}
+                  >
+                    Reject
+                  </Button>
+
+                  {/* Accept Button - Solid Primary Style */}
+                  <Button 
+                    onClick={() => handleAccept(selectedApplicant.id)}
+                    style={{ 
+                      backgroundColor: '#00c49f', 
+                      color: '#121212', 
+                      border: '1px solid #00c49f',
+                      borderRadius: '0.5rem', 
+                      padding: '0.625rem 1.5rem', 
+                      flex: 1,
+                      fontWeight: 'bold',
+                      boxShadow: '0 4px 15px rgba(0, 196, 159, 0.2)'
+                    }}
+                  >
+                    Accept
+                  </Button>
+                </div>
+
+                <button 
+                  onClick={() => setSelectedApplicant(null)}
+                  className="back-to-list-btn"
                 >
-                  Reject
-                </Button>
-
-                {/* Accept Button - Solid Primary Style */}
-                <Button 
-                  onClick={() => handleAccept(selectedApplicant.id)}
-                  style={{ 
-                    backgroundColor: '#00c49f', 
-                    color: '#121212', 
-                    border: '1px solid #00c49f',
-                    borderRadius: '0.5rem', 
-                    padding: '0.625rem 1.5rem', 
-                    flex: 1,
-                    fontWeight: 'bold',
-                    boxShadow: '0 4px 15px rgba(0, 196, 159, 0.2)'
-                  }}
-                >
-                  Accept
-                </Button>
+                  <ArrowLeft size={16} /> Back to List
+                </button>
               </div>
-
-              <button 
-                onClick={() => setSelectedApplicant(null)}
-                className="back-to-list-btn"
-              >
-                <ArrowLeft size={16} /> Back to List
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }

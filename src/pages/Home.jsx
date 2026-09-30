@@ -1,6 +1,7 @@
 import bgImage from '../assets/bg-image.jpg';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import About from '../pages/About';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import RoleSelection from '../components/auth/RoleSelection';
@@ -282,6 +283,10 @@ export default function Home() {
             
             <Button onClick={() => navigate('/employer')} style={{marginTop: '20px'}}>To Employeer Dashboard</Button>
             <Button onClick={() => navigate('/seeker')} style={{marginTop: '20px'}}>To Seeker Dashboard</Button>
+
+          <div id="about-section" className="w-full mt-20">
+             <About />
+          </div>
           
         </main>
       )}
