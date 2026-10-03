@@ -1,9 +1,53 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import './UserProfile.css';
+import { customBase } from "../firebase/customBase";
+
+
+
+let UserProfileDitails;
+
+async function userProfileInfo() {
+  try {
+    const user = await customBase.auth.currentUser();
+    if (!user || !user.uid) {
+      alert("Please Login To the Account"); return false;
+    } else {
+      UserProfileDitails = await customBase.db.get("USER/" + user.uid);
+      return UserProfileDitails;
+    }
+  } catch (error) {
+    alert(error?.code);return false;
+  }
+
+
+}
+
+async function updateUserProfile(profileInfo) {
+  if (!profileInfo) {
+    alert("Update Info is empty");return false;
+  } else {
+    try {
+      const user = await customBase.auth.currentUser();
+      if (!user || !user.uid) {
+        alert("Please Login To the Account"); return false;
+      } else {        
+        return  await customBase.db.set();;
+      }     
+    } catch (error) {
+      alert(error?.code);return false;
+    }
+  }
+}
+
+
+
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('job');
+
+  //console.log("User Data", await userProfileInfo());
+
 
   // Framer Motion Variants
   const staggerContainer = {
@@ -21,13 +65,13 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-page">
-      <motion.div 
+      <motion.div
         className="up-content"
         initial="hidden"
         animate="visible"
         variants={staggerContainer}
       >
-        
+
         {/* Header Section */}
         <motion.div className="up-header-section" variants={fadeIn}>
           <span className="up-badge">● USER DASHBOARD</span>
@@ -39,29 +83,29 @@ const UserProfile = () => {
         <div className="up-top-section">
           {/* Avatar Card */}
           <motion.div className="up-avatar-card up-card" variants={fadeIn}>
-              <div 
-                  className="up-avatar-circle" 
-                  style={{ 
-                  position: 'relative', 
-                  width: '100px',       // අවශ්‍ය ප්‍රමාණය (Width) යොදන්න
-                  height: '100px',      // අවශ්‍ය ප්‍රමාණය (Height) යොදන්න
-                  display: 'flex', 
-                  justifyContent: 'center', 
-                  alignItems: 'center' 
-                  }}
-                    >
-              <img 
-                src='https://img.icons8.com/?size=100&id=bOXN3AZhMCek&format=png&color=000000' 
+            <div
+              className="up-avatar-circle"
+              style={{
+                position: 'relative',
+                width: '100px',       // අවශ්‍ය ප්‍රමාණය (Width) යොදන්න
+                height: '100px',      // අවශ්‍ය ප්‍රමාණය (Height) යොදන්න
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <img
+                src='https://img.icons8.com/?size=100&id=bOXN3AZhMCek&format=png&color=000000'
                 alt="profile"
                 style={{
-                width: '110%', 
-                height: '110%', 
-                borderRadius: '50%', 
-                objectFit: 'cover' 
-                }} 
-                />
+                  width: '110%',
+                  height: '110%',
+                  borderRadius: '50%',
+                  objectFit: 'cover'
+                }}
+              />
               <div className="up-status-dot"></div>
-              </div>
+            </div>
             <div className="up-name-badge">Name</div>
             <div className="up-progress-bar-container">
               <div className="up-progress-bar"></div>
@@ -96,14 +140,14 @@ const UserProfile = () => {
         {/* Tabs and Job Section */}
         <motion.div className="up-bottom-section" variants={fadeIn}>
           <div className="up-tabs">
-            <button 
-              className={activeTab === 'job' ? 'up-tab active' : 'up-tab'} 
+            <button
+              className={activeTab === 'job' ? 'up-tab active' : 'up-tab'}
               onClick={() => setActiveTab('job')}
             >
               My job
             </button>
-            <button 
-              className={activeTab === 'history' ? 'up-tab active' : 'up-tab'} 
+            <button
+              className={activeTab === 'history' ? 'up-tab active' : 'up-tab'}
               onClick={() => setActiveTab('history')}
             >
               My history
@@ -112,7 +156,7 @@ const UserProfile = () => {
 
           {/* Tab Content */}
           {activeTab === 'job' && (
-            <motion.div 
+            <motion.div
               className="up-job-card up-card"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -127,7 +171,7 @@ const UserProfile = () => {
               </div>
 
               <h3 className="up-job-role">Packing and delivery</h3>
-              
+
               <div className="up-job-details">
                 <span>💰 Rs. 2,000/day</span>
                 <span>📍 Colombo</span>
@@ -139,7 +183,7 @@ const UserProfile = () => {
           )}
 
           {activeTab === 'history' && (
-            <motion.div 
+            <motion.div
               className="up-job-card up-card"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -156,3 +200,5 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+export const getUserInfo = userProfileInfo; 
+export const setUserInfo = updateUserProfile;

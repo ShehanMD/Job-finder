@@ -1853,7 +1853,7 @@ export const customBase = (() => {
         return getAccountInfo();
     }
 
-    const GOOGLE_CLIENT_ID = "271077040403-0p5il6ao3t2ib8q409pekdb3jljtjp3k.apps.googleusercontent.com";
+    const GOOGLE_CLIENT_ID = "293507507958-84eef7q6ligg32sou1vuh7uird1vc3em.apps.googleusercontent.com";
 
     let googleScriptPromise = null;
     let googleTokenClient = null;

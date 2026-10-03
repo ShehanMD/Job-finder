@@ -6,6 +6,7 @@ import Button from "../Ui/Button";
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { customBase } from "../firebase/customBase";
 
 
 export default function Login({ onClose }) {
@@ -28,28 +29,25 @@ export default function Login({ onClose }) {
         <form>
           <div className="form-group">
             <label>Email</label>
-            <Input type="email" placeholder={"Enter your E-mail"} />
+            <Input onChange={setEmailInput} type="email" placeholder={"Enter your E-mail"} />
           </div>
 
           <div className="form-group">
             <label>Password</label>
-            <Input type="password" placeholder={"Enter your Password"} />
+            <Input onChange={setPassInput} type="password" placeholder={"Enter your Password"} />
           </div>
 
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <Input type="password" placeholder={"Confirm your Password"} />
-          </div>
+          
 
           <div className="btn-row">
-            <Button type="button" className="btn-primary" style={{ width: '50%' }}>Log in</Button>
+            <Button onClick={haddleloggin} type="button" className="btn-primary" style={{ width: '50%' }}>Log in</Button>
             <Button type="button" className="btn-primary" variant='gray' style={{ width: '50%' }} onClick={onClose}>
               Back
             </Button>
           </div>
 
           <div className="mt-6 space-y-3">
-            <Button type="button" variant="white" className="w-full gap-2">
+            <Button type="button" variant="white" onClick={customBase.auth.googleSignIn} className="w-full gap-2">
               <FcGoogle className="text-lg" />
               Login with Google
             </Button>
@@ -63,4 +61,27 @@ export default function Login({ onClose }) {
       </motion.div>
     </div>
   );
+}
+
+let logginEmail;
+let logginPass;
+
+function setEmailInput(e){
+  logginEmail=e.target.value;
+}
+function setPassInput(e){
+  logginPass=e.target.value;
+}
+async function haddleloggin() {
+  if(!logginEmail || !logginPass){
+    alert("Please Fill All");
+  }else{
+    try {
+      const logResults =await customBase.auth.signIn(logginEmail,logginPass);
+      console.log("Results",logResults);
+    } catch (error) {
+      alert(error?.code);   
+    }
+    
+  }
 }

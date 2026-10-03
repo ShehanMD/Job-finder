@@ -18,11 +18,11 @@ customBase.autoInit();  // dont remowe this
   (async () => {
 
 
-    const data2 = await customBase.db.push('ADM', { name: "hellow" })   
-    console.log("put : ", data2);                                               /// example for data add
+    //const data2 = await customBase.db.push('ADM', { name: "hellow" })   
+    //console.log("put : ", data2);                                               /// example for data add
 
-    const data = await customBase.db.get("ADM")
-    console.log("retrew : ", data);                                         /// example for data read
+   // const data = await customBase.db.get("ADM")
+    //console.log("retrew : ", data);                                         /// example for data read
 
 
 
