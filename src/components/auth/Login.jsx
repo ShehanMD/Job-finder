@@ -7,6 +7,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { customBase } from "../firebase/customBase";
+import { TruckElectric } from 'lucide-react';
 
 
 export default function Login({ onClose }) {
@@ -78,10 +79,24 @@ async function haddleloggin() {
   }else{
     try {
       const logResults =await customBase.auth.signIn(logginEmail,logginPass);
-      console.log("Results",logResults);
+      const UaerData = await customBase.db.get(`USER/${logResults.uid}`);
+       LoginEnd(UaerData);
     } catch (error) {
+      
       alert(error?.code);   
+      return  false;
     }
     
   }
 }
+
+
+  function LoginEnd(respond) {
+    console.log(respond);    //// මෙතනට එනවා ලොග් උනාට පස්සෙ එම්ප්ලොයි ටය්ප් එක අනන් මනම් , මෙතනින් අදාල පේජ් එකට යවන්න
+  
+    if(respond.role ==  'employer'){
+
+    }else if(respond.role ==  "seeker"){
+
+    }
+  }
