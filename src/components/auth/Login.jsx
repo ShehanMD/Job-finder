@@ -7,10 +7,60 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { customBase } from "../firebase/customBase";
-import { TruckElectric } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function Login({ onClose }) {
+  const navigate = useNavigate();
+
+  const [logginEmail, setEmail] = React.useState('');
+  const [logginPass, setPassword] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
+  async function haddleloggin(e) {
+    e.preventDefault();
+
+    if (!logginEmail || !logginPass) {
+      alert("Please Fill All");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // Sign in with Firebase
+      const logResults = await customBase.auth.signIn(
+        logginEmail,
+        logginPass
+      );
+
+      // Get the user's data from the database
+      const userData = await customBase.db.get(
+        `USER/${logResults.uid}`
+      );
+
+      // Navigate according to the user's role
+      if (userData?.role === 'employer') {
+        navigate('/employer');
+        onClose?.();
+
+      } else if (userData?.role === 'seeker') {
+        navigate('/seeker');
+        onClose?.();
+
+      } else {
+        alert("Invalid user role!");
+      }
+
+    } catch (error) {
+      console.error("Login error:", error);
+      alert(error?.message || error?.code || "Login failed!");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <motion.div
@@ -20,40 +70,96 @@ export default function Login({ onClose }) {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.4 }}
-        
       >
-        <button className="close-btn" onClick={onClose}>✕</button>
+        <button
+          className="close-btn"
+          onClick={onClose}
+          type="button"
+        >
+          ✕
+        </button>
 
-        <h2 style={{ fontSize: '26px', margin: '0 0 5px 0', color: '#fff' }}>Sign in</h2>
-        <p style={{ color: '#ffff', fontSize: '13px', margin: '0 0 30px 0' }}>Dont have an account? <a href="/" style={{ color: '#00c49f' }}>Register</a></p>
+        <h2
+          style={{
+            fontSize: '26px',
+            margin: '0 0 5px 0',
+            color: '#fff'
+          }}
+        >
+          Sign in
+        </h2>
 
-        <form>
+        <p
+          style={{
+            color: '#ffff',
+            fontSize: '13px',
+            margin: '0 0 30px 0'
+          }}
+        >
+          Dont have an account?{' '}
+          <a href="/" style={{ color: '#00c49f' }}>
+            Register
+          </a>
+        </p>
+
+        <form onSubmit={haddleloggin}>
           <div className="form-group">
             <label>Email</label>
-            <Input onChange={setEmailInput} type="email" placeholder={"Enter your E-mail"} />
+            <Input
+              value={logginEmail}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="Enter your E-mail"
+            />
           </div>
 
           <div className="form-group">
             <label>Password</label>
-            <Input onChange={setPassInput} type="password" placeholder={"Enter your Password"} />
+            <Input
+              value={logginPass}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Enter your Password"
+            />
           </div>
 
-          
-
           <div className="btn-row">
-            <Button onClick={haddleloggin} type="button" className="btn-primary" style={{ width: '50%' }}>Log in</Button>
-            <Button type="button" className="btn-primary" variant='gray' style={{ width: '50%' }} onClick={onClose}>
+            <Button
+              type="submit"
+              className="btn-primary"
+              style={{ width: '50%' }}
+              disabled={loading}
+            >
+              {loading ? 'Logging in...' : 'Log in'}
+            </Button>
+
+            <Button
+              type="button"
+              className="btn-primary"
+              variant="gray"
+              style={{ width: '50%' }}
+              onClick={onClose}
+            >
               Back
             </Button>
           </div>
 
           <div className="mt-6 space-y-3">
-            <Button type="button" variant="white" onClick={customBase.auth.googleSignIn} className="w-full gap-2">
+            <Button
+              type="button"
+              variant="white"
+              onClick={customBase.auth.googleSignIn}
+              className="w-full gap-2"
+            >
               <FcGoogle className="text-lg" />
               Login with Google
             </Button>
 
-            <Button type="button" variant="white" className="w-full gap-2">
+            <Button
+              type="button"
+              variant="white"
+              className="w-full gap-2"
+            >
               <FaFacebook className="text-blue-600 text-lg" />
               Login with Facebook
             </Button>
@@ -63,40 +169,3 @@ export default function Login({ onClose }) {
     </div>
   );
 }
-
-let logginEmail;
-let logginPass;
-
-function setEmailInput(e){
-  logginEmail=e.target.value;
-}
-function setPassInput(e){
-  logginPass=e.target.value;
-}
-async function haddleloggin() {
-  if(!logginEmail || !logginPass){
-    alert("Please Fill All");
-  }else{
-    try {
-      const logResults =await customBase.auth.signIn(logginEmail,logginPass);
-      const UaerData = await customBase.db.get(`USER/${logResults.uid}`);
-       LoginEnd(UaerData);
-    } catch (error) {
-      
-      alert(error?.code);   
-      return  false;
-    }
-    
-  }
-}
-
-
-  function LoginEnd(respond) {
-    console.log(respond);    //// මෙතනට එනවා ලොග් උනාට පස්සෙ එම්ප්ලොයි ටය්ප් එක අනන් මනම් , මෙතනින් අදාල පේජ් එකට යවන්න
-  
-    if(respond.role ==  'employer'){
-
-    }else if(respond.role ==  "seeker"){
-
-    }
-  }

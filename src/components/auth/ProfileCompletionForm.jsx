@@ -82,7 +82,7 @@ export default function ProfileCompletionForm({ role, employerType, formData, ha
         </div>
 
         {/* 1. SEEKER / INDIVIDUAL FIELDS */}
-        {(role === 'seeker' || employerType === 'individual') && (
+        {(role === 'seeker' || employerType === 'seeker') && (
           <>
             <Input
               label="Mobile Number"
