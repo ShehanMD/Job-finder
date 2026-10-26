@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import './UserProfile.css';
+import CurrentJob from "./CurrentJob";
 import { customBase } from "../firebase/customBase";
 
 
@@ -155,32 +156,7 @@ const UserProfile = () => {
           </div>
 
           {/* Tab Content */}
-          {activeTab === 'job' && (
-            <motion.div
-              className="up-job-card up-card"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="up-job-header">
-                <div className="up-job-title-group">
-                  <div className="up-company-logo">DSI</div>
-                  <h2>Naviina DSI Show Room</h2>
-                </div>
-                <div className="up-capacity-badge">👤 10/50</div>
-              </div>
-
-              <h3 className="up-job-role">Packing and delivery</h3>
-
-              <div className="up-job-details">
-                <span>💰 Rs. 2,000/day</span>
-                <span>📍 Colombo</span>
-                <span>⏰ 8:00 AM - 5:00 PM</span>
-              </div>
-
-              <button className="up-btn-primary">View job →</button>
-            </motion.div>
-          )}
+          {activeTab === "job" && <CurrentJob />}      
 
           {activeTab === 'history' && (
             <motion.div
