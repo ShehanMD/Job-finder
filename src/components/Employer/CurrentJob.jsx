@@ -23,30 +23,21 @@ const CurrentJob = ({ onViewJob }) => {
           return;
         }
 
-        // Fetch the user's information
-        const userData = await customBase.db.get(
-          `USER/${user.uid}`
-        );
+        // Fetch current Job ID
+        const CurrentJobID = await customBase.db.get(`USER/${user.uid}/CJID`); // CJID - Curent Job ID
+        console.log(`CurrentJobID :`, CurrentJobID);
 
-        // The current job can be an object or a job ID
-        let jobData = userData?.currentJob ?? null;
-
-        if (typeof jobData === "string") {
+        
+        let job;
+        if (CurrentJobID) {
           // currentJob contains a job ID
-          jobData = await customBase.db.get(
-            `JOBS/${jobData}`
-          );
-        } else if (!jobData && userData?.currentJobId) {
-          // Alternative: store the ID in currentJobId
-          jobData = await customBase.db.get(
-            `JOBS/${userData.currentJobId}`
-          );
+          job = await customBase.db.get(`JOBS/${CurrentJobID}`);
         }
 
         if (!cancelled) {
           setJob(
-            jobData && typeof jobData === "object"
-              ? jobData
+            job && typeof job === "object"
+              ? job
               : null
           );
         }
@@ -105,20 +96,37 @@ const CurrentJob = ({ onViewJob }) => {
     );
   }
 
+  /*
+   // මෙහෙම ඔබ්ජෙක්ට් එකක් තමා එන්නෙ
+  const job = { 
+  "CM": "ABC Technologies (Pvt) Ltd",  
+  "R": "Software Engineer Intern", 
+  "D": "https://example.com/company-logo.png",
+
+  "A": 125, 
+  "C": 200,  
+
+  "PT": "Paid Internship", 
+  "P": 2500,      
+  "PP": "day",    
+  "S": "Rs. 75,000/month", 
+
+  "L": "Colombo 03",      
+  "CT": "Colombo",         
+
+  "W": "8:30 AM - 5:00 PM", 
+  "ST": "8:30 AM",          
+  "ET": "5:00 PM"          
+}; */
+
+
+
   // Prepare values from the database
-  const companyName =
-    job.companyName || job.company || "Company name";
-
-  const jobRole =
-    job.role || job.jobTitle || job.title || "Job role";
-
-  const companyLogo =
-    job.companyLogoText ||
-    job.logoText ||
-    companyName.substring(0, 3).toUpperCase();
-
-  const applicants = job.applicantsCount ?? 0;
-  const capacity = job.capacity ?? job.maxApplicants;
+  const companyName = job.CM || "Company name";
+  const jobRole =    job.R || "Job role";
+  const companyLogo = job.D ||companyName.substring(0, 3).toUpperCase();  // company dp
+  const applicants = job.A ?? 0;
+  const capacity = job.C ?? job.MA;  // capacity max aplicants
 
   const capacityText =
     capacity != null
@@ -126,22 +134,21 @@ const CurrentJob = ({ onViewJob }) => {
       : `${applicants}`;
 
   const paymentText =
-    job.payText ||
-    (job.pay != null
-      ? `Rs. ${Number(job.pay).toLocaleString()}/${
-          job.payPeriod || "day"
+    job.PT ||   // payment text                     
+    (job.P != null
+      ? `Rs. ${Number(job.P).toLocaleString()}/${
+          job.PP || "day"  // payment period
         }`
-      : job.salary != null
-      ? String(job.salary)
+      : job.S != null  // sallary
+      ? String(job.S)
       : "Payment not specified");
 
-  const location =
-    job.location || job.city || "Location not specified";
+  const location =job.L || job.CT || "Location not specified";   // location / city
 
   const workingHours =
-    job.workHours ||
-    (job.startTime || job.endTime
-      ? `${job.startTime || "—"} - ${job.endTime || "—"}`
+    job.W ||   // workkers
+    (job.ST || job.ET    // start time / end time
+      ? `${job.ST || "—"} - ${job.ET || "—"}`
       : "Hours not specified");
 
   return (
@@ -153,9 +160,8 @@ const CurrentJob = ({ onViewJob }) => {
     >
       <div className="up-job-header">
         <div className="up-job-title-group">
-          <div className="up-company-logo">
-            {companyLogo}
-          </div>
+          <img className="up-company-logo" src={companyLogo} alt="" />
+          
 
           <h2>{companyName}</h2>
         </div>
