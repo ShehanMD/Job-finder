@@ -1,7 +1,8 @@
+
 import React, { useState } from "react";
 import styles from "./Navbar.module.css";
 
-export const Navbar = ({ 
+export const Navbar = ({
   isLoggedIn = false,
   transparent = false,
   onSignInClick,
@@ -13,35 +14,43 @@ export const Navbar = ({
 
   const closeMenu = () => setIsOpen(false);
 
-  const handleProfileClick = () => {
+  const handleProfileClick = (e) => {
     closeMenu();
+
     if (onProfileClick) {
+      e.preventDefault();
       onProfileClick();
     } else if (onNavClick) {
-      onNavClick('profile');
+      e.preventDefault();
+      onNavClick("profile");
     }
   };
-
 
   const handleScrollToHome = (e) => {
     closeMenu();
-    
-   
-    if (window.location.pathname === '/' || window.location.pathname === '') {
-      e.preventDefault(); 
-      window.scrollTo({ top: 0, behavior: 'smooth' }); 
-    }
-    
-  };
 
+    if (
+      window.location.pathname === "/" ||
+      window.location.pathname === ""
+    ) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  };
 
   const handleScrollToAbout = (e) => {
     closeMenu();
-    
+
     const aboutSection = document.getElementById("about-section");
+
     if (aboutSection) {
       e.preventDefault();
-      aboutSection.scrollIntoView({ behavior: "smooth" });
+      aboutSection.scrollIntoView({
+        behavior: "smooth"
+      });
     } else {
       window.location.href = "/#about-section";
     }
@@ -49,55 +58,63 @@ export const Navbar = ({
 
   const isNavbarTransparent = isLoggedIn || transparent;
 
-  return (
-    <nav className={`${styles.navbar} ${isNavbarTransparent ? styles.transparent : ''}`}>
-      
-      {/* User Icon */}
-      {isLoggedIn && (
-        <div className={styles.userIconWrapper}>
-          <a
-            href="/profile"
-            className={styles.userIcon}
-            onClick={handleProfileClick}
-            title="View Profile"
-          >
-            👤
-          </a>
-        </div>
-      )}
+ 
+return (
+  <nav
+    className={`${styles.navbar} ${
+      isNavbarTransparent ? styles.transparent : ""
+    }`}
+  >
+    {/* User Profile - Left Side */}
+    {isLoggedIn && (
+      <div className={styles.userIconWrapper}>
+        <a
+          href="/profile"
+          className={styles.userIcon}
+          onClick={handleProfileClick}
+          title="View Profile"
+          aria-label="View Profile"
+        >
+          👤
+        </a>
+      </div>
+    )}
 
-      {/* Navigation Menu */}
-      <div className={`${styles.navMenu} ${isOpen ? styles.active : ''}`}>
-        
-        <a 
-          href="/" 
+    {/* Navigation - Right Side */}
+    <div className={styles.navRight}>
+      <div
+        id="main-navigation"
+        className={`${styles.navMenu} ${
+          isOpen ? styles.active : ""
+        }`}
+      >
+        <a
+          href="/"
           className={styles.navLink}
           onClick={handleScrollToHome}
         >
           Home
         </a>
 
-        {/* About Link */}
-        <a 
-          href="#about-section" 
+        <a
+          href="#about-section"
           className={styles.navLink}
           onClick={handleScrollToAbout}
         >
           About
         </a>
 
-        <a 
-          href="/contact" 
+        <a
+          href="/contact"
           className={styles.navLink}
-          onClick={() => closeMenu()}
+          onClick={closeMenu}
         >
           Contact
         </a>
 
-        {/* Button Sign In / Sign Out */}
         {isLoggedIn ? (
-          <button 
-            className={styles.signInButton} 
+          <button
+            className={styles.signInButton}
             onClick={() => {
               closeMenu();
               if (onSignOutClick) onSignOutClick();
@@ -106,8 +123,8 @@ export const Navbar = ({
             Sign Out
           </button>
         ) : (
-          <button 
-            className={styles.signInButton} 
+          <button
+            className={styles.signInButton}
             onClick={() => {
               closeMenu();
               if (onSignInClick) onSignInClick();
@@ -117,8 +134,25 @@ export const Navbar = ({
           </button>
         )}
       </div>
-    </nav>
-  );
+
+      {/* Mobile Hamburger */}
+      <button
+        type="button"
+        className={`${styles.hamburger} ${
+          isOpen ? styles.hamburgerActive : ""
+        }`}
+        onClick={() => setIsOpen((prev) => !prev)}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isOpen}
+        aria-controls="main-navigation"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+);
 };
 
 export default Navbar;
