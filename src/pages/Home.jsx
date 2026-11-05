@@ -476,6 +476,7 @@ export default function Home() {
 
   const register = async (email, password, formData) => {
     delete formData.password;
+    delete formData.confirmPassword
 
     try {
       const userCredential =
@@ -486,15 +487,10 @@ export default function Home() {
         );
 
       const user = userCredential.user;
+      const OriginalUserData = {...formData,uid: user.uid,createdAt: Date.now()}
+      const SortentObject = shortenKeys(OriginalUserData)
 
-      return await customBase.db.set(
-        `USER/${user.uid}`,
-        {
-          ...formData,
-          uid: user.uid,
-          createdAt: Date.now()
-        }
-      );
+      return await customBase.db.set(`USER/${user.uid}`,SortentObject);
     } catch (error) {
       alert(error.message);
       return false;
@@ -808,4 +804,75 @@ export default function Home() {
 
     </div>
   );
+}
+
+
+
+
+
+
+
+
+
+
+const KEY_MAP = {
+    addressLine1: "AD1",
+    addressLine2: "AD2",
+    addressLine3: "AD3",
+    birthDay: "BD",
+    birthMonth: "BM",
+    birthYear: "BY",
+    createdAt: "CA",
+    email: "EM",
+    fullName: "FN",
+    idNo: "ID",
+    mobileNo: "MN",
+    role: "RL",
+    employerType:"ET",
+    userName: "UN",
+    CurentJobId : "CJID"
+};
+
+// Convert long keys to short keys
+function shortenKeys(data) {
+    if (Array.isArray(data)) {
+        return data.map(shortenKeys);
+    }
+
+    if (data !== null && typeof data === "object") {
+        const result = {};
+
+        for (const key in data) {
+            const shortKey = KEY_MAP[key] || key;
+            result[shortKey] = shortenKeys(data[key]);
+        }
+
+        return result;
+    }
+
+    return data;
+}
+
+// Convert short keys back to original keys
+function expandKeys(data) {
+    const reverseMap = Object.fromEntries(
+        Object.entries(KEY_MAP).map(([long, short]) => [short, long])
+    );
+
+    if (Array.isArray(data)) {
+        return data.map(expandKeys);
+    }
+
+    if (data !== null && typeof data === "object") {
+        const result = {};
+
+        for (const key in data) {
+            const originalKey = reverseMap[key] || key;
+            result[originalKey] = expandKeys(data[key]);
+        }
+
+        return result;
+    }
+
+    return data;
 }

@@ -18,7 +18,7 @@ async function userProfileInfo() {
       return UserProfileDitails;
     }
   } catch (error) {
-    alert(error?.code);return false;
+    alert(error?.code); return false;
   }
 
 
@@ -26,17 +26,17 @@ async function userProfileInfo() {
 
 async function updateUserProfile(profileInfo) {
   if (!profileInfo) {
-    alert("Update Info is empty");return false;
+    alert("Update Info is empty"); return false;
   } else {
     try {
       const user = await customBase.auth.currentUser();
       if (!user || !user.uid) {
         alert("Please Login To the Account"); return false;
-      } else {        
-        return  await customBase.db.set();;
-      }     
+      } else {
+        return await customBase.db.set();;
+      }
     } catch (error) {
-      alert(error?.code);return false;
+      alert(error?.code); return false;
     }
   }
 }
@@ -45,9 +45,16 @@ async function updateUserProfile(profileInfo) {
 
 
 const UserProfile = () => {
+
+ 
   const [activeTab, setActiveTab] = useState('job');
 
-  //console.log("User Data", await userProfileInfo());
+   const LoadUserData = async () => {
+    userProfileInfo();
+  }
+  LoadUserData();
+  
+  // console.log("User Data", await userProfileInfo());
 
 
   // Framer Motion Variants
@@ -63,6 +70,8 @@ const UserProfile = () => {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
+
+
 
   return (
     <div className="user-profile-page">
@@ -156,7 +165,7 @@ const UserProfile = () => {
           </div>
 
           {/* Tab Content */}
-          {activeTab === "job" && <CurrentJob />}      
+          {activeTab === "job" && <CurrentJob />}
 
           {activeTab === 'history' && (
             <motion.div
@@ -176,5 +185,5 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-export const getUserInfo = userProfileInfo; 
+export const getUserInfo = userProfileInfo;
 export const setUserInfo = updateUserProfile;
