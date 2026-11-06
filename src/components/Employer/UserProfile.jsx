@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { motion } from 'framer-motion';
 import './UserProfile.css';
 import CurrentJob from "./CurrentJob";
@@ -41,20 +41,38 @@ async function updateUserProfile(profileInfo) {
   }
 }
 
-
+function calculateAge(birthYear) {
+    const currentYear = new Date().getFullYear();
+    return currentYear - Number(birthYear);
+}
 
 
 const UserProfile = () => {
 
- 
   const [activeTab, setActiveTab] = useState('job');
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-   const LoadUserData = async () => {
-    userProfileInfo();
-  }
-  LoadUserData();
-  
-  // console.log("User Data", await userProfileInfo());
+  useEffect(() => {
+
+    const LoadUserData = async () => {
+      try {
+        const data = await userProfileInfo();
+
+        console.log("User Data", data);
+        setUserData(data);
+
+      } catch (error) {
+        console.error("Error loading user data:", error);
+
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    LoadUserData();
+
+  }, []);
 
 
   // Framer Motion Variants
@@ -85,7 +103,7 @@ const UserProfile = () => {
         {/* Header Section */}
         <motion.div className="up-header-section" variants={fadeIn}>
           <span className="up-badge">● USER DASHBOARD</span>
-          <h1>Welcome back, <span>Name</span></h1>
+          <h1>Welcome back, <span>{userData?.UN || 'User'}</span></h1>
           <p>Manage your personal information, track active jobs, and oversee your history seamlessly.</p>
         </motion.div>
 
@@ -116,7 +134,7 @@ const UserProfile = () => {
               />
               <div className="up-status-dot"></div>
             </div>
-            <div className="up-name-badge">Name</div>
+            <div className="up-name-badge">{userData?.UN || 'USER'}</div>
             <div className="up-progress-bar-container">
               <div className="up-progress-bar"></div>
             </div>
@@ -126,23 +144,23 @@ const UserProfile = () => {
           <motion.div className="up-info-grid" variants={staggerContainer}>
             <motion.div className="up-info-card up-card" variants={fadeIn}>
               <div className="up-icon-wrapper">📍</div>
-              <h3>Address</h3>
-              <p>Colombo, Sri Lanka</p>
+              <h3>{userData?.AD1 || 'Not provided'}{','+userData?.AD2 || ''}{','+userData?.AD3 || ''}</h3>
+              <p>Sri Lanka</p>
             </motion.div>
             <motion.div className="up-info-card up-card" variants={fadeIn}>
               <div className="up-icon-wrapper">🎂</div>
               <h3>Age</h3>
-              <p>22 Years</p>
+              <p>{userData?.BY?  calculateAge(userData.BY): 'Provide Age'} </p>
             </motion.div>
             <motion.div className="up-info-card up-card" variants={fadeIn}>
               <div className="up-icon-wrapper">📞</div>
               <h3>WH Number</h3>
-              <p>+94 77 123 4567</p>
+              <p>{userData?.WH || 'Not provided'}</p>
             </motion.div>
             <motion.div className="up-info-card up-card" variants={fadeIn}>
               <div className="up-icon-wrapper">📱</div>
               <h3>Tel number</h3>
-              <p>+94 71 987 6543</p>
+              <p>{userData?.MN || 'Not provided'}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -183,6 +201,9 @@ const UserProfile = () => {
     </div>
   );
 };
+
+
+
 
 export default UserProfile;
 export const getUserInfo = userProfileInfo;

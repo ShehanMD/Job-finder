@@ -41,11 +41,11 @@ export default function Login({ onClose }) {
       );
 
       // Navigate according to the user's role
-      if (userData?.role === 'employer') {
+      if (userData?.RL === 'employer') {
         navigate('/employer');
         onClose?.();
 
-      } else if (userData?.role === 'seeker') {
+      } else if (userData?.RL === 'seeker') {
         navigate('/seeker');
         onClose?.();
 
