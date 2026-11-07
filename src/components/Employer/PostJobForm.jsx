@@ -51,7 +51,7 @@ export default function PostJobForm({ onJobPosted }) {
     console.log("----- Hosa Job Data -----");
     console.log(formData);
     console.log("---------------------------");
-
+ 
     setTimeout(() => {
       alert("Job posted successfully!");
       setLoading(false);

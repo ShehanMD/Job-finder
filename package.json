@@ -10,16 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tsparticles/engine": "4.5.3",
+    "@tsparticles/react": "4.5.3",
     "firebase": "^12.19.0",
     "framer-motion": "^13.2.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^1.45.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-icons": "^5.7.0",
     "react-loading-indicators": "^1.0.1",
     "react-router-dom": "^7.18.4",
-    "react-tsparticles": "^2.12.2",
-    "tsparticles": "^4.4.0"
+    "tsparticles": "4.5.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

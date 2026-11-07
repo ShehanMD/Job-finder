@@ -112,7 +112,7 @@
 
 //   function registerEnd(respond) {
 //     console.log(respond);    //// මෙතනට එනවා රෙජිස්ටර් උනාට පස්සෙ එම්ප්ලොයි ටය්ප් එක අනන් මනම් , මෙතනින් අදාල පේජ් එකට යවන්න
-  
+
 //     if(respond.role ==  'employer'){
 
 //     }else if(respond.role ==  "seeker"){
@@ -310,14 +310,14 @@
 
 //   );
 // }
-
+import { MapModule } from "../components/map/index";
 
 import bgImage1 from '../assets/bg-image.jpg';
 import bgImage2 from '../assets/bg-image-2.png';
 import bgImage3 from '../assets/bg-image-3.png';
 import bgImage4 from '../assets/bg-image-4.png';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import About from '../pages/About';
 import Navbar from '../components/layout/Navbar';
@@ -366,6 +366,11 @@ const TOOLS = [
 ];
 
 export default function Home() {
+
+  const mapRef = useRef(null);
+  const [location, setLocation] = useState(null);
+
+
   const [role, setRole] = useState(null);
   const [employerType, setEmployerType] = useState(null);
   const [step, setStep] = useState(1);
@@ -487,10 +492,10 @@ export default function Home() {
         );
 
       const user = userCredential.user;
-      const OriginalUserData = {...formData,uid: user.uid,createdAt: Date.now()}
+      const OriginalUserData = { ...formData, uid: user.uid, createdAt: Date.now() }
       const SortentObject = shortenKeys(OriginalUserData)
 
-      return await customBase.db.set(`USER/${user.uid}`,SortentObject);
+      return await customBase.db.set(`USER/${user.uid}`, SortentObject);
     } catch (error) {
       alert(error.message);
       return false;
@@ -521,10 +526,9 @@ export default function Home() {
               absolute inset-0
               bg-cover bg-center bg-fixed
               transition-opacity duration-[1500ms] ease-in-out
-              ${
-                currentImage === index
-                  ? "opacity-100"
-                  : "opacity-0"
+              ${currentImage === index
+                ? "opacity-100"
+                : "opacity-0"
               }
             `}
             style={{
@@ -785,6 +789,29 @@ export default function Home() {
               To Seeker Dashboard
             </Button>
 
+
+
+            <Button style={{ marginTop: '20px' }} onClick={() => mapRef.current.open()}>
+              Select Location
+            </Button>
+
+            <MapModule
+              ref={mapRef}
+              display="overlay"
+              mode="view"
+              title="Select your location"
+              onLocationChange={setLocation}
+              onConfirm={(loc) => {
+                console.log("Selected:", loc);
+              }}
+            />
+
+
+            
+
+
+
+
             <div id="about-section" className="w-full mt-20">
               <About />
             </div>
@@ -816,63 +843,63 @@ export default function Home() {
 
 
 const KEY_MAP = {
-    addressLine1: "AD1",
-    addressLine2: "AD2",
-    addressLine3: "AD3",
-    birthDay: "BD",
-    birthMonth: "BM",
-    birthYear: "BY",
-    createdAt: "CA",
-    email: "EM",
-    fullName: "FN",
-    idNo: "ID",
-    mobileNo: "MN",
-    role: "RL",
-    employerType:"ET",
-    userName: "UN",
-    CurentJobId : "CJID"
+  addressLine1: "AD1",
+  addressLine2: "AD2",
+  addressLine3: "AD3",
+  birthDay: "BD",
+  birthMonth: "BM",
+  birthYear: "BY",
+  createdAt: "CA",
+  email: "EM",
+  fullName: "FN",
+  idNo: "ID",
+  mobileNo: "MN",
+  role: "RL",
+  employerType: "ET",
+  userName: "UN",
+  CurentJobId: "CJID"
 };
 
 // Convert long keys to short keys
 function shortenKeys(data) {
-    if (Array.isArray(data)) {
-        return data.map(shortenKeys);
+  if (Array.isArray(data)) {
+    return data.map(shortenKeys);
+  }
+
+  if (data !== null && typeof data === "object") {
+    const result = {};
+
+    for (const key in data) {
+      const shortKey = KEY_MAP[key] || key;
+      result[shortKey] = shortenKeys(data[key]);
     }
 
-    if (data !== null && typeof data === "object") {
-        const result = {};
+    return result;
+  }
 
-        for (const key in data) {
-            const shortKey = KEY_MAP[key] || key;
-            result[shortKey] = shortenKeys(data[key]);
-        }
-
-        return result;
-    }
-
-    return data;
+  return data;
 }
 
 // Convert short keys back to original keys
 function expandKeys(data) {
-    const reverseMap = Object.fromEntries(
-        Object.entries(KEY_MAP).map(([long, short]) => [short, long])
-    );
+  const reverseMap = Object.fromEntries(
+    Object.entries(KEY_MAP).map(([long, short]) => [short, long])
+  );
 
-    if (Array.isArray(data)) {
-        return data.map(expandKeys);
+  if (Array.isArray(data)) {
+    return data.map(expandKeys);
+  }
+
+  if (data !== null && typeof data === "object") {
+    const result = {};
+
+    for (const key in data) {
+      const originalKey = reverseMap[key] || key;
+      result[originalKey] = expandKeys(data[key]);
     }
 
-    if (data !== null && typeof data === "object") {
-        const result = {};
+    return result;
+  }
 
-        for (const key in data) {
-            const originalKey = reverseMap[key] || key;
-            result[originalKey] = expandKeys(data[key]);
-        }
-
-        return result;
-    }
-
-    return data;
+  return data;
 }
