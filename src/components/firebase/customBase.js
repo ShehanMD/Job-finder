@@ -1429,17 +1429,56 @@ export const customBase = (() => {
 
         } = options;
 
-        let finalURL =
-            query
-                ? appendQuery(
-                    url,
-                    query
-                )
-                : url;
+        
 
-        let requestHeaders = {
-            ...headers
-        };
+
+
+
+
+
+
+
+
+
+
+let requestQuery = query
+    ? { ...query }
+    : {};
+
+let requestHeaders = {
+    ...headers
+};
+
+if (authenticated) {
+
+    const token = await getIdToken();
+
+    if (token) {
+
+        if (service === "database") {
+
+            requestQuery.auth = token;
+
+        } else {
+
+            requestHeaders = {
+                ...requestHeaders,
+                Authorization: `Bearer ${token}`
+            };
+        }
+    }
+}
+
+let finalURL = Object.keys(requestQuery).length
+    ? appendQuery(url, requestQuery)
+    : url;
+
+
+
+
+
+
+
 
         if (
             authenticated

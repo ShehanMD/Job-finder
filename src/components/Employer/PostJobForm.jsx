@@ -65,8 +65,7 @@ export default function PostJobForm({ onJobPosted }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault();    
     try {      
       const user = customBase.auth.currentUser();      
       if (!user?.uid) {
@@ -74,16 +73,14 @@ export default function PostJobForm({ onJobPosted }) {
         return;
       }
       
-      let ShortJOBData = shortenKeys({...formData,...{uid:user.uid}}, JOB_KEY_MAP);
-      console.log("hey",user,ShortJOBData);
-      
+      let ShortJOBData = shortenKeys({...formData,...{uid:user.uid}}, JOB_KEY_MAP);         
 
 
       async function UpdatJOPeData() {
-        
+        setLoading(true);
         await customBase.db.push(`JOBS`, ShortJOBData);
         alert("Job posted successfully!");        
-
+        setLoading(false);
         if (onJobPosted) {
           onJobPosted('yourJobs');
         }
@@ -91,8 +88,9 @@ export default function PostJobForm({ onJobPosted }) {
       UpdatJOPeData();
     } catch (error) {
       alert("Something Wrong!");  
-    }finally{
       setLoading(false);
+    }finally{
+      
     }
   };
 
