@@ -3,6 +3,26 @@ import Button from '../Ui/Button';
 import { MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './employer-dashboard.css';
+import { customBase } from "../firebase/customBase";
+import { shortenKeys, expandKeys } from '../Util/objectkey';
+
+const JOB_KEY_MAP = {
+  jobTitle: "JT",
+  description: "DS",
+  payment: "PY",
+  location: "LC",
+  employees: "EMP",
+  jobDateDay: "JDD",
+  jobDateMonth: "JDM",
+  jobDateYear: "JDY",
+  startHour: "SH",
+  startMin: "SM",
+  startAmPm: "SAP",
+  endHour: "EH",
+  endMin: "EM",
+  endAmPm: "EAP",
+  requirements: "RQ"
+}
 
 export default function PostJobForm({ onJobPosted }) {
   const [formData, setFormData] = useState({
@@ -47,23 +67,37 @@ export default function PostJobForm({ onJobPosted }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log("----- Hosa Job Data -----");
-    console.log(formData);
-    console.log("---------------------------");
- 
-    setTimeout(() => {
-      alert("Job posted successfully!");
-      setLoading(false);
-      
-      if (onJobPosted) {
-        onJobPosted('yourJobs');
+    try {      
+      const user = customBase.auth.currentUser();      
+      if (!user?.uid) {
+        alert("Please log in to post job.")
+        return;
       }
-    }, 1000);
+      
+      let ShortJOBData = shortenKeys({...formData,...{uid:user.uid}}, JOB_KEY_MAP);
+      console.log("hey",user,ShortJOBData);
+      
+
+
+      async function UpdatJOPeData() {
+        
+        await customBase.db.push(`JOBS`, ShortJOBData);
+        alert("Job posted successfully!");        
+
+        if (onJobPosted) {
+          onJobPosted('yourJobs');
+        }
+      }
+      UpdatJOPeData();
+    } catch (error) {
+      alert("Something Wrong!");  
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="post-job-container"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -76,7 +110,7 @@ export default function PostJobForm({ onJobPosted }) {
       </div>
 
       <form onSubmit={handleSubmit} className="form-container">
-        
+
         <div className="form-group">
           <label className="form-label">Job title</label>
           <input
@@ -198,7 +232,7 @@ export default function PostJobForm({ onJobPosted }) {
               </select>
             </div>
           </div>
-          
+
           <div className="form-group">
             <label className="form-label">End time</label>
             <div className="custom-dropdown-group">
