@@ -1,14 +1,14 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../Ui/Button';
 import ApplicationCenter from './ApplicationCenter';
 import { customBase } from "../firebase/customBase";
 
 
-async function getMyJobs() {
+async function getMyJobs(userID) {
   return await customBase.db.query('JOBS', {
     orderBy: 'uid',
-    equalTo: '89RiJcPYpBYBuMzXFzb3TRbzZQP2'
+    equalTo: userID
   });
 }
 
@@ -20,36 +20,41 @@ export default function YourJobs({ onBackClick, onViewApplications, onJobFinishe
   const [loading, setLoading] = useState(true);
 
   // Load jobs
-useEffect(() => {
-  const loadJobs = async () => {
-    try {
-      const myJobs = await getMyJobs();
+  useEffect(() => {
+    const loadJobs = async () => {
+      try {
+        const user = customBase.auth.currentUser();
+        if (!user?.uid) {
+          alert("Please log in to post job.")
+          return [];
+        }
 
-      console.log("Raw My Jobs Data:", myJobs);
+        const myJobs = await getMyJobs(user.uid);
 
-      let jobsArray = [];
 
-      if (Array.isArray(myJobs)) {
-        jobsArray = myJobs;
-      } else if (myJobs && typeof myJobs === 'object') {
-        jobsArray = Object.entries(myJobs).map(([key, value]) => ({
-          id: value?.id || key,
-          ...value
-        }));
+        let jobsArray = [];
+
+        if (Array.isArray(myJobs)) {
+          jobsArray = myJobs;
+        } else if (myJobs && typeof myJobs === 'object') {
+          jobsArray = Object.entries(myJobs).map(([key, value]) => ({
+            id: value?.id || key,
+            ...value
+          }));
+        }
+
+        setJobs(jobsArray);
+
+      } catch (error) {
+        console.error('Failed to load jobs:', error);
+        setJobs([]);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setJobs(jobsArray);
-
-    } catch (error) {
-      console.error('Failed to load jobs:', error);
-      setJobs([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  loadJobs();
-}, []);
+    loadJobs();
+  }, []);
 
   // Helpers
   const toggleJobDetails = (id) => {
@@ -237,17 +242,15 @@ useEffect(() => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.3, delay: index * 0.04 }}
-                  className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 ${
-                    isExpanded
+                  className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 ${isExpanded
                       ? 'bg-[#191e1c] border-emerald-500/40 shadow-[0_10px_40px_rgba(16,185,129,0.06)]'
                       : 'bg-[#1b1d1c] border-zinc-800 hover:border-zinc-700'
-                  }`}
+                    }`}
                 >
 
                   {/* ACCENT LINE */}
-                  <div className={`absolute top-0 left-0 w-full h-[2px] transition-opacity ${
-                    isExpanded ? 'bg-emerald-400 opacity-100' : 'bg-emerald-400 opacity-0 group-hover:opacity-50'
-                  }`} />
+                  <div className={`absolute top-0 left-0 w-full h-[2px] transition-opacity ${isExpanded ? 'bg-emerald-400 opacity-100' : 'bg-emerald-400 opacity-0 group-hover:opacity-50'
+                    }`} />
 
                   {/* MAIN CARD */}
                   <div
@@ -326,11 +329,10 @@ useEffect(() => {
                             e.stopPropagation();
                             toggleJobDetails(job.id);
                           }}
-                          className={`w-10 h-10 shrink-0 rounded-xl border flex items-center justify-center text-zinc-400 hover:text-white transition-all ${
-                            isExpanded
+                          className={`w-10 h-10 shrink-0 rounded-xl border flex items-center justify-center text-zinc-400 hover:text-white transition-all ${isExpanded
                               ? 'bg-emerald-500/10 border-emerald-500/30 rotate-180'
                               : 'bg-zinc-900 border-zinc-800'
-                          }`}
+                            }`}
                           aria-label="Toggle job details"
                         >
                           ↓
