@@ -8,11 +8,11 @@ import { FaFacebook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { customBase } from "../firebase/customBase";
 import { useNavigate } from 'react-router-dom';
-
-
+import { useAuth } from "./AuthContext";
 
 export default function Login({ onClose }) {
   const navigate = useNavigate();
+  const { loading: authLoading } = useAuth();
 
   const [logginEmail, setEmail] = React.useState('');
   const [logginPass, setPassword] = React.useState('');
@@ -29,27 +29,23 @@ export default function Login({ onClose }) {
     try {
       setLoading(true);
 
-      // Sign in with Firebase
       const logResults = await customBase.auth.signIn(
         logginEmail,
         logginPass
       );
 
-      // Get the user's data from the database
       const userData = await customBase.db.get(
         `USER/${logResults.uid}`
       );
 
-      // Navigate according to the user's role
       if (userData?.RL === 'employer') {
+        onClose?.();
         navigate('/employer');
-        onClose?.();
-
       } else if (userData?.RL === 'seeker') {
-        navigate('/seeker');
         onClose?.();
-
+        navigate('/seeker');
       } else {
+        await customBase.auth.signOut();
         alert("Invalid user role!");
       }
 
@@ -79,23 +75,19 @@ export default function Login({ onClose }) {
           ✕
         </button>
 
-        <h2
-          style={{
-            fontSize: '26px',
-            margin: '0 0 5px 0',
-            color: '#fff'
-          }}
-        >
+        <h2 style={{
+          fontSize: '26px',
+          margin: '0 0 5px 0',
+          color: '#fff'
+        }}>
           Sign in
         </h2>
 
-        <p
-          style={{
-            color: '#ffff',
-            fontSize: '13px',
-            margin: '0 0 30px 0'
-          }}
-        >
+        <p style={{
+          color: '#ffff',
+          fontSize: '13px',
+          margin: '0 0 30px 0'
+        }}>
           Dont have an account?{' '}
           <a href="/" style={{ color: '#00c49f' }}>
             Register
@@ -128,7 +120,7 @@ export default function Login({ onClose }) {
               type="submit"
               className="btn-primary"
               style={{ width: '50%' }}
-              disabled={loading}
+              disabled={loading || authLoading}
             >
               {loading ? 'Logging in...' : 'Log in'}
             </Button>

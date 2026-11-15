@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
@@ -12,7 +11,6 @@ export const Navbar = ({
   onProfileClick
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const navigate = useNavigate();
 
   const closeMenu = () => {
@@ -31,46 +29,38 @@ export const Navbar = ({
     }
   };
 
-  // Navigate to Home
-  const handleScrollToHome = (e) => {
+  // Navigate / Scroll to Home safely without breaking session state
+  const handleHomeClick = (e) => {
+    e.preventDefault();
     closeMenu();
 
-    if (
-      window.location.pathname === "/" ||
-      window.location.pathname === ""
-    ) {
-      e.preventDefault();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
+    // Route eka root ekata yawanawa, back button eka gatthath session eka drop wenne na
+    navigate("/");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   };
 
   // Navigate / Scroll to About
   const handleScrollToAbout = (e) => {
     closeMenu();
-
     const aboutSection = document.getElementById("about-section");
 
     if (aboutSection) {
       e.preventDefault();
-
       aboutSection.scrollIntoView({
         behavior: "smooth"
       });
     } else {
-      window.location.href = "/#about-section";
+      navigate("/#about-section");
     }
   };
-
-  const isNavbarTransparent = isLoggedIn || transparent;
 
   return (
     <nav
       className={`${styles.navbar} ${
-        isNavbarTransparent ? styles.transparent : ""
+        isLoggedIn || transparent ? styles.transparent : ""
       }`}
     >
       {/* User Profile - Left Side */}
@@ -92,15 +82,13 @@ export const Navbar = ({
       <div className={styles.navRight}>
         <div
           id="main-navigation"
-          className={`${styles.navMenu} ${
-            isOpen ? styles.active : ""
-          }`}
+          className={`${styles.navMenu} ${isOpen ? styles.active : ""}`}
         >
           {/* Home */}
           <a
             href="/"
             className={styles.navLink}
-            onClick={handleScrollToHome}
+            onClick={handleHomeClick}
           >
             Home
           </a>
@@ -118,7 +106,11 @@ export const Navbar = ({
           <a
             href="/contact"
             className={styles.navLink}
-            onClick={closeMenu}
+            onClick={(e) => {
+              e.preventDefault();
+              closeMenu();
+              navigate("/contact");
+            }}
           >
             Contact
           </a>
@@ -130,7 +122,6 @@ export const Navbar = ({
               className={styles.signInButton}
               onClick={() => {
                 closeMenu();
-
                 if (onSignOutClick) {
                   onSignOutClick();
                 }
@@ -144,9 +135,10 @@ export const Navbar = ({
               className={styles.signInButton}
               onClick={() => {
                 closeMenu();
-
                 if (onSignInClick) {
                   onSignInClick();
+                } else {
+                  navigate("/signin");
                 }
               }}
             >

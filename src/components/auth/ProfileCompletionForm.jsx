@@ -73,6 +73,27 @@ export default function ProfileCompletionForm({ role, employerType, formData, ha
           </div>
         </div>
 
+        {/*Phone number*/}
+        <Input
+          label="Phone Number"
+          type="tel"
+          name="phoneNo"
+          placeholder="07XXXXXXXX"
+          value={formData.phoneNo || ''}
+          onChange={handleInputChange}
+          required
+        />
+
+        {/*Whatsapp number*/}
+        <Input
+          label="Whatsapp Number"
+          type="tel"
+          name="whatsappNo"
+          placeholder="07XXXXXXXX"
+          value={formData.whatsappNo || ''}
+          onChange={handleInputChange}
+        />  
+
         {/* Address */}
         <div>
           <label className="block text-[12px] text-gray-300 font-bold mb-1">Address</label>
