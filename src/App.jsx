@@ -7,7 +7,7 @@ import UserProfile from './components/Employer/UserProfile'
 import {customBase} from "./components/firebase/customBase"
 import SeekerDashboard from './components/Seeker/SeekerDashboard';
 
-
+import Chatbot from './components/Chatbot/Chatbot.jsx';
 
 
 customBase.autoInit();  // dont remowe this
@@ -35,6 +35,7 @@ customBase.autoInit();  // dont remowe this
 
 export default function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
@@ -42,5 +43,8 @@ export default function App() {
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/seeker" element={<SeekerDashboard/>} />
     </Routes>
+
+    <Chatbot />
+    </>
   );
 }
