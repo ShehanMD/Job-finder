@@ -1,0 +1,75 @@
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #2a2a2a;
+  padding: 40px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 450px;
+  position: absolute;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: white;
+}
+
+/* Labels සහ Inputs ලස්සනට පෙළගස්වන්න මේක එකතු කළා */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  color: #aaa;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.btn-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.btn-social {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; 
+}

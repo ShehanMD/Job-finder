@@ -1,0 +1,439 @@
+/* User Profile එකට පමණක් Scoped කර ඇත */
+.user-profile-page {
+  --up-bg-main: #1a1c1e;
+  --up-card-bg: #222528;
+  --up-card-border: #2d3136;
+  --up-accent-color: #00d29d;
+  --up-accent-hover: #00b588;
+  --up-text-main: #ffffff;
+  --up-text-muted: #9ca3af;
+
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--up-bg-main);
+  color: var(--up-text-main);
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Box-sizing Reset */
+.user-profile-page *,
+.user-profile-page *::before,
+.user-profile-page *::after {
+  box-sizing: border-box;
+}
+
+.user-profile-page .up-content {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Header Section */
+.user-profile-page .up-header-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.user-profile-page .up-badge {
+  background-color: rgba(0, 210, 157, 0.1);
+  color: var(--up-accent-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 210, 157, 0.2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.user-profile-page .up-header-section h1 {
+  font-size: 38px;
+  margin: 0;
+  font-weight: 800;
+}
+
+.user-profile-page .up-header-section h1 span {
+  color: var(--up-accent-color);
+}
+
+.user-profile-page .up-header-section p {
+  color: var(--up-text-muted);
+  margin: 0;
+  font-size: 16px;
+  max-width: 600px;
+}
+
+/* Card General Styling */
+.user-profile-page .up-card {
+  background-color: var(--up-card-bg);
+  border: 1px solid var(--up-card-border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+/* Top Section Layout */
+.user-profile-page .up-top-section {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+
+/* Avatar Card */
+.user-profile-page .up-avatar-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.user-profile-page .up-avatar-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: #2a2f33;
+  border: 3px solid var(--up-accent-color);
+  position: relative;
+}
+
+.user-profile-page .up-status-dot {
+  width: 22px;
+  height: 22px;
+  background-color: var(--up-accent-color);
+  border: 4px solid var(--up-card-bg);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+
+.user-profile-page .up-name-badge {
+  background-color: rgba(0, 210, 157, 0.15);
+  color: var(--up-accent-color);
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.user-profile-page .up-progress-bar-container {
+  width: 80%;
+  height: 6px;
+  background-color: #2d3136;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.user-profile-page .up-progress-bar {
+  width: 65%;
+  height: 100%;
+  background-color: var(--up-accent-color);
+}
+
+/* User Info Grid */
+.user-profile-page .up-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.user-profile-page .up-info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.user-profile-page .up-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  background-color: rgba(0, 210, 157, 0.08);
+  color: var(--up-accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.user-profile-page .up-info-card h3 {
+  margin: 0;
+  color: var(--up-text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user-profile-page .up-info-card p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--up-text-main);
+}
+
+/* Bottom Tabs Section */
+.user-profile-page .up-bottom-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.user-profile-page .up-tabs {
+  display: flex;
+  gap: 30px;
+  border-bottom: 1px solid var(--up-card-border);
+  padding-bottom: 12px;
+}
+
+.user-profile-page .up-tab {
+  background: none;
+  border: none;
+  color: var(--up-text-muted);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  padding: 0 0 12px 0;
+  transition: color 0.3s ease;
+}
+
+.user-profile-page .up-tab:hover {
+  color: var(--up-text-main);
+}
+
+.user-profile-page .up-tab.active {
+  color: var(--up-accent-color);
+}
+
+.user-profile-page .up-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--up-accent-color);
+  border-radius: 3px 3px 0 0;
+}
+
+/* Job Details Card */
+.user-profile-page .up-job-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 30px;
+}
+
+.user-profile-page .up-job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-profile-page .up-job-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-profile-page .up-company-logo {
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.user-profile-page .up-job-title-group h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.user-profile-page .up-capacity-badge {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--up-text-muted);
+}
+
+.user-profile-page .up-job-role {
+  margin: 0;
+  font-size: 26px;
+  color: var(--up-text-main);
+  font-weight: 800;
+}
+
+.user-profile-page .up-job-details {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.user-profile-page .up-job-details span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--up-text-muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Button */
+.user-profile-page .up-btn-primary {
+  background-color: var(--up-accent-color);
+  color: #000000;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.user-profile-page .up-btn-primary:hover {
+  background-color: var(--up-accent-hover);
+}
+
+.user-profile-page .up-btn-primary:active {
+  transform: scale(0.98);
+}
+
+
+/* =========================================================
+   MEDIA QUERIES FOR TABLETS & MOBILE PHONES
+   ========================================================= */
+
+/* 1. Tablets & Medium Screens (Max width: 850px) */
+@media (max-width: 850px) {
+  .user-profile-page {
+    padding: 30px 16px;
+  }
+
+  .user-profile-page .up-content {
+    gap: 28px;
+  }
+
+  .user-profile-page .up-top-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .user-profile-page .up-header-section h1 {
+    font-size: 30px;
+  }
+
+  .user-profile-page .up-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 2. Mobile Phones (Max width: 576px) */
+@media (max-width: 576px) {
+  .user-profile-page {
+    padding: 20px 12px;
+  }
+
+  .user-profile-page .up-header-section {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .user-profile-page .up-header-section h1 {
+    font-size: 24px;
+  }
+
+  .user-profile-page .up-header-section p {
+    font-size: 14px;
+  }
+
+  /* Avatar Card Adjustment */
+  .user-profile-page .up-avatar-card {
+    padding: 20px;
+  }
+
+  .user-profile-page .up-avatar-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Info Grid Adjustment */
+  .user-profile-page .up-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .user-profile-page .up-card {
+    padding: 16px;
+  }
+
+  .user-profile-page .up-info-card p {
+    font-size: 15px;
+  }
+
+  /* Job Card Adjustments */
+  .user-profile-page .up-job-card {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .user-profile-page .up-job-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .user-profile-page .up-job-title-group h2 {
+    font-size: 18px;
+  }
+
+  .user-profile-page .up-job-role {
+    font-size: 20px;
+  }
+
+  .user-profile-page .up-job-details {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .user-profile-page .up-job-details span {
+    font-size: 14px;
+  }
+
+  .user-profile-page .up-btn-primary {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+  }
+
+  .user-profile-page .up-tabs {
+    gap: 20px;
+  }
+
+  .user-profile-page .up-tab {
+    font-size: 15px;
+  }
+}
+
+/* 3. Small Mobile Screens (Max width: 380px) */
+@media (max-width: 380px) {
+  .user-profile-page .up-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
