@@ -1,3 +1,35 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import About from "./pages/About";
+import Home from './pages/Home';
+import EmployerDashboard from './components/Employer/EmployerDashboard';
+import UserProfile from './components/Employer/UserProfile'
+import {customBase} from "./components/firebase/customBase"
+import SeekerDashboard from './components/Seeker/SeekerDashboard';
+
+import Chatbot from './components/Chatbot/Chatbot.jsx';
+
+
+customBase.autoInit();  // dont remowe this
+
+
+
+
+  (async () => {
+
+
+    //const data2 = await customBase.db.push('ADM', { name: "hellow" })   
+    //console.log("put : ", data2);                                               /// example for data add
+
+   // const data = await customBase.db.get("ADM")
+    //console.log("retrew : ", data);                                         /// example for data read
+
+
+
+
+  })();
+
+
 
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -37,6 +69,7 @@ function ProtectedRoute({ children, allowedRole }) {
 
 export default function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<Home />} />
 
@@ -73,5 +106,8 @@ export default function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
 
     </Routes>
+
+    <Chatbot />
+    </>
   );
 }
