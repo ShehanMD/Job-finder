@@ -344,6 +344,7 @@ import EmployerDashboard from '../components/Employer/EmployerDashboard';
 import Button from '../components/Ui/Button';
 
 import { shortenKeys, expandKeys } from '../components/Util/objectkey';
+import { useAuth } from "../components/auth/AuthContext";
 
 
 const USER_KEY_MAP = {
@@ -390,7 +391,12 @@ const TOOLS = [
 ];
 
 export default function Home() {
-
+  const {
+  isLoggedIn,
+  logout,
+  role: authRole,
+  loading: authLoading
+} = useAuth();
   const mapRef = useRef(null);
   const [location, setLocation] = useState(null);
 
@@ -456,6 +462,16 @@ export default function Home() {
 
   // Temporary route
   const navigate = useNavigate();
+
+  const handleDashboardClick = () => {
+  if (authRole === 'employer') {
+    navigate('/employer');
+  } else if (authRole === 'seeker') {
+    navigate('/seeker');
+  } else {
+    alert('User role not found!');
+  }
+};
 
   const handleInputChange = (e) => {
     setFormData({
@@ -576,8 +592,13 @@ export default function Home() {
 
         <div className="fixed top-0 left-0 w-full z-50">
           <Navbar
-            onSignInClick={() => setIsLoginOpen(true)}
-          />
+  isLoggedIn={isLoggedIn}
+  onSignInClick={() => setIsLoginOpen(true)}
+  onSignOutClick={async () => {
+    await logout();
+    navigate("/", { replace: true });
+  }}
+/>
         </div>
 
         {!isLoginOpen && (
@@ -621,13 +642,24 @@ export default function Home() {
 
                     </div>
 
-                    <RoleSelection
-                      role={role}
-                      setRole={setRole}
-                      onSelectSeeker={handleSeekerSelect}
-                      onSelectEmployerType={handleEmployerTypeSelect}
-                      style={{ marginTop: '20%' }}
-                    />
+                    {!isLoggedIn ? (
+  <RoleSelection
+    role={role}
+    setRole={setRole}
+    onSelectSeeker={handleSeekerSelect}
+    onSelectEmployerType={handleEmployerTypeSelect}
+    style={{ marginTop: '20%' }}
+  />
+) : (
+  <div className="flex justify-center mt-8">
+    <Button
+      onClick={handleDashboardClick}
+      disabled={authLoading || !authRole}
+    >
+      {authLoading ? 'Loading...' : 'To Dashboard'}
+    </Button>
+  </div>
+)}
 
                   </motion.div>
                 )}
