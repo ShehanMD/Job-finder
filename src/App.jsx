@@ -1,47 +1,23 @@
+
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import About from "./pages/About";
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import About from './pages/About';
 import Home from './pages/Home';
+
 import EmployerDashboard from './components/Employer/EmployerDashboard';
-import UserProfile from './components/Employer/UserProfile'
-import {customBase} from "./components/firebase/customBase"
+import UserProfile from './components/Employer/UserProfile';
 import SeekerDashboard from './components/Seeker/SeekerDashboard';
 
 import Chatbot from './components/Chatbot/Chatbot.jsx';
 
+import { customBase } from './components/firebase/customBase';
+import { useAuth } from './components/auth/AuthContext';
 
-customBase.autoInit();  // dont remowe this
+// Don't remove this
+customBase.autoInit();
 
-
-
-
-  (async () => {
-
-
-    //const data2 = await customBase.db.push('ADM', { name: "hellow" })   
-    //console.log("put : ", data2);                                               /// example for data add
-
-   // const data = await customBase.db.get("ADM")
-    //console.log("retrew : ", data);                                         /// example for data read
-
-
-
-
-  })();
-
-
-
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-
-import About from "./pages/About";
-import Home from "./pages/Home";
-import EmployerDashboard from "./components/Employer/EmployerDashboard";
-import SeekerDashboard from "./components/Seeker/SeekerDashboard";
-import UserProfile from "./components/Employer/UserProfile";
-
-import { useAuth } from "./components/auth/AuthContext";
-
+// Protected Route Component
 function ProtectedRoute({ children, allowedRole }) {
   const { isLoggedIn, role, loading } = useAuth();
 
@@ -67,47 +43,47 @@ function ProtectedRoute({ children, allowedRole }) {
   return children;
 }
 
+// Main App Component
 export default function App() {
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Home />} />
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-      <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />} />
 
-      <Route
-        path="/employer"
-        element={
-          <ProtectedRoute allowedRole="employer">
-            <EmployerDashboard />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/employer"
+          element={
+            <ProtectedRoute allowedRole="employer">
+              <EmployerDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/seeker"
-        element={
-          <ProtectedRoute allowedRole="seeker">
-            <SeekerDashboard />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/seeker"
+          element={
+            <ProtectedRoute allowedRole="seeker">
+              <SeekerDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <UserProfile />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
 
-      {/* Unknown URLs */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Unknown URLs */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
 
-    </Routes>
-
-    <Chatbot />
+      <Chatbot />
     </>
   );
 }
