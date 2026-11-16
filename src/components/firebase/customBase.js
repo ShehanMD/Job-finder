@@ -3317,8 +3317,8 @@ let finalURL = Object.keys(requestQuery).length
         return state.initialized;
     }
 
-    function autoInit(){
-        init(fbc);
+    function autoInit() {
+  return init(fbc);
     }
 
     return {
